@@ -69,6 +69,7 @@ public class AddPaste extends AppCompatActivity {
     private void doSomePost() {
         String url = getResources().getString(R.string.api_url) + "api_post.php";
         name = etPasteName.getText().toString();
+        pasteText = etPasteText.getText().toString();
         privacy = spPastePrivacy.getSelectedItemPosition() + "";
         new ServerPaste().execute(url);
     }
@@ -91,11 +92,11 @@ public class AddPaste extends AppCompatActivity {
 
         public Map<String, String> getPasteData() {
             Map<String, String> data = new HashMap<>();
-            data.put("api_dev_key", getResources().getString(R.string.api_key));
             data.put("api_option", "paste");
+            data.put("api_dev_key", getResources().getString(R.string.api_key));
             data.put("api_paste_name", name);
             data.put("api_paste_private", privacy);
-            data.put("api_paste_code", "");
+            data.put("api_paste_code", pasteText);
             return data;
         }
 
@@ -103,6 +104,7 @@ public class AddPaste extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             HttpRequest request = HttpRequest.post(params[0], postData, true);
+            request.header("Content-Type", "");
             if (request.ok()) {
                 status = true;
                 dataReturned = request.body();
@@ -120,6 +122,7 @@ public class AddPaste extends AppCompatActivity {
                 default:
                     postData = new HashMap<>();
             }
+            Toast.makeText(AddPaste.this, postData.toString(), Toast.LENGTH_LONG).show();
         }
 
         @Override
