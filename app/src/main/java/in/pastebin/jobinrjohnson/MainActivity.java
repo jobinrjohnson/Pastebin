@@ -15,8 +15,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -118,9 +129,9 @@ public class MainActivity extends AppCompatActivity
 
     private class ServerPaste extends AsyncTask<String, Void, String> {
 
-        Map<String, String> postData;
+        HashMap<String, String> postData;
         String dataReturned;
-        boolean status = false;
+        boolean status = true;
         int type;
 
         ServerPaste(int type) {
@@ -131,24 +142,88 @@ public class MainActivity extends AppCompatActivity
             type = 0;
         }
 
-        public Map<String, String> getTrendPastePostData() {
-            Map<String, String> data = new HashMap<>();
+        public HashMap<String, String> getTrendPastePostData() {
+            HashMap<String, String> data = new HashMap<>();
             data.put("api_option", "trends");
             data.put("api_dev_key", getResources().getString(R.string.api_key));
             return data;
         }
 
+//        @Override
+//        protected String doInBackground(String... params) {
+//
+//            HttpRequest request = HttpRequest.post("http://pastebin.com/api/api_post.php", postData, false);
+//            request.header("Content-Type", "application/x-www-form-urlencoded");
+//            if (request.ok()) {
+//                status = true;
+//                dataReturned = request.body();
+//            }
+//            return null;
+//        }
+
+
+        private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+            StringBuilder result = new StringBuilder();
+            boolean first = true;
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                if (first)
+                    first = false;
+                else
+                    result.append("&");
+
+                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+                result.append("=");
+                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+            }
+
+            return result.toString();
+        }
+
         @Override
         protected String doInBackground(String... params) {
 
-            HttpRequest request = HttpRequest.post(params[0], postData, false);
-            //HttpRequest request = HttpRequest.post(params[0]+"?api_option=trends&api_dev_key"+getResources().getString(R.string.api_key));
 
-            request.header("Content-Type", "application/x-www-form-urlencoded");
-            if (request.ok()) {
-                status = true;
-                dataReturned = request.body();
+            URL url;
+            String response = "";
+            try {
+                url = new URL(params[0]);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postData));
+
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    String line;
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    while ((line = br.readLine()) != null) {
+                        response += line;
+                    }
+                } else {
+                    response = "";
+
+                }
+
+                dataReturned = response;
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+
             return null;
         }
 
