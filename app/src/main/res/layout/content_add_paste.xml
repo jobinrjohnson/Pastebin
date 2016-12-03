@@ -28,27 +28,28 @@
             android:visibility="visible">
 
             <LinearLayout
+                android:id="@+id/llFirstStep"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <EditText
-                    android:id="@+id/etName"
+                    android:id="@+id/etPasteName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Paste Name" />
 
                 <Spinner
-                    android:id="@+id/spPrivacy"
+                    android:id="@+id/spPastePrivacy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:entries="@array/paste_privacy" />
 
                 <Button
-                    android:id="@+id/btnStpaste"
+                    android:id="@+id/btnProceed1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -56,24 +57,20 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll3rdStep"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:weightSum="10">
 
-                <LinearLayout
+
+                <EditText
+                    android:id="@+id/etPaste"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_weight="8"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/editText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:maxLines="100000" />
-                </LinearLayout>
+                    android:maxLines="100000" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
