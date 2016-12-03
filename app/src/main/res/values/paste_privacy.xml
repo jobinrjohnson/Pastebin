@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+Caution : Don't change the order
+$api_paste_private 		= '1'; // 0=public 1=unlisted 2=private
+
+-->
+
+<resources>
+    <string-array name="paste_privacy">
+        <item>Public</item>
+        <item>Unlisted</item>
+        <item>Private</item>
+    </string-array>
+</resources>
