@@ -141,10 +141,10 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
 
-            HttpRequest request = HttpRequest.post(params[0], postData, true);
-            //request.header("Content-Type","");
-            //request.header("Referer",);
-            request.referer("http://pastebin.com");
+            HttpRequest request = HttpRequest.post(params[0], postData, false);
+            //HttpRequest request = HttpRequest.post(params[0]+"?api_option=trends&api_dev_key"+getResources().getString(R.string.api_key));
+
+            request.header("Content-Type", "application/x-www-form-urlencoded");
             if (request.ok()) {
                 status = true;
                 dataReturned = request.body();
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
                 default:
                     postData = new HashMap<>();
             }
-            Toast.makeText(MainActivity.this, postData.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this, postData.toString(), Toast.LENGTH_LONG).show();
         }
 
         @Override
