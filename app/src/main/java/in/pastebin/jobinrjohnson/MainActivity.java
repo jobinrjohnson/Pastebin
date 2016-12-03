@@ -1,6 +1,7 @@
 package in.pastebin.jobinrjohnson;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +48,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        loadFrontProfile();
+
+    }
+
+    public void loadFrontProfile() {
+        String url = getResources().getString(R.string.api_url) + "api_post.php";
+        new ServerPaste().execute(url);
     }
 
     @Override
@@ -100,5 +114,65 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class ServerPaste extends AsyncTask<String, Void, String> {
+
+        Map<String, String> postData;
+        String dataReturned;
+        boolean status = false;
+        int type;
+
+        ServerPaste(int type) {
+            this.type = type;
+        }
+
+        ServerPaste() {
+            type = 0;
+        }
+
+        public Map<String, String> getTrendPastePostData() {
+            Map<String, String> data = new HashMap<>();
+            data.put("api_option", "trends");
+            data.put("api_dev_key", getResources().getString(R.string.api_key));
+            return data;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            HttpRequest request = HttpRequest.post(params[0], postData, true);
+            //request.header("Content-Type","");
+            //request.header("Referer",);
+            request.referer("http://pastebin.com");
+            if (request.ok()) {
+                status = true;
+                dataReturned = request.body();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            switch (type) {
+                case 0:             //for trending posts
+                    postData = getTrendPastePostData();
+                    break;
+                default:
+                    postData = new HashMap<>();
+            }
+            Toast.makeText(MainActivity.this, postData.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (status) {
+                Toast.makeText(MainActivity.this, dataReturned, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Nothing returned", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

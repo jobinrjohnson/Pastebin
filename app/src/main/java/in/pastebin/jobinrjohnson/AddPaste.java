@@ -105,6 +105,8 @@ public class AddPaste extends AppCompatActivity {
 
             HttpRequest request = HttpRequest.post(params[0], postData, true);
             request.header("Content-Type", "");
+            //request.header("Referer",);
+            request.referer("http://pastebin.com");
             if (request.ok()) {
                 status = true;
                 dataReturned = request.body();
