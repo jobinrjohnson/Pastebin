@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 public class AddPaste extends AppCompatActivity {
 
@@ -77,7 +77,7 @@ public class AddPaste extends AppCompatActivity {
 
     private class ServerPaste extends AsyncTask<String, Void, String> {
 
-        Map<String, String> postData;
+        HashMap<String, String> postData;
         String dataReturned;
         boolean status = false;
         int type;
@@ -90,8 +90,8 @@ public class AddPaste extends AppCompatActivity {
             type = 0;
         }
 
-        public Map<String, String> getPasteData() {
-            Map<String, String> data = new HashMap<>();
+        public HashMap<String, String> getPasteData() {
+            HashMap<String, String> data = new HashMap<>();
             data.put("api_option", "paste");
             data.put("api_dev_key", getResources().getString(R.string.api_key));
             data.put("api_paste_name", name);
@@ -103,13 +103,16 @@ public class AddPaste extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-            HttpRequest request = HttpRequest.post(params[0], postData, true);
-            request.header("Content-Type", "");
-            //request.header("Referer",);
-            request.referer("http://pastebin.com");
-            if (request.ok()) {
-                status = true;
-                dataReturned = request.body();
+            PastebinRequest request = null;
+            try {
+                request = new PastebinRequest(params[0]);
+                request.postData(postData);
+                if (request.resultOk()) {
+                    status = true;
+                    dataReturned = request.getResponse();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             return null;
         }
