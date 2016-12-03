@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Pastebin</string>
     <string name="api_key">54264ef0696e0c17fd50c62d5685e1a8</string>
+    <string name="title_activity_main">PasteBin</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
