@@ -15,19 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -131,7 +120,7 @@ public class MainActivity extends AppCompatActivity
 
         HashMap<String, String> postData;
         String dataReturned;
-        boolean status = true;
+        boolean status = false;
         int type;
 
         ServerPaste(int type) {
@@ -149,77 +138,17 @@ public class MainActivity extends AppCompatActivity
             return data;
         }
 
-//        @Override
-//        protected String doInBackground(String... params) {
-//
-//            HttpRequest request = HttpRequest.post("http://pastebin.com/api/api_post.php", postData, false);
-//            request.header("Content-Type", "application/x-www-form-urlencoded");
-//            if (request.ok()) {
-//                status = true;
-//                dataReturned = request.body();
-//            }
-//            return null;
-//        }
-
-
-        private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
-            StringBuilder result = new StringBuilder();
-            boolean first = true;
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                if (first)
-                    first = false;
-                else
-                    result.append("&");
-
-                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-            }
-
-            return result.toString();
-        }
-
         @Override
         protected String doInBackground(String... params) {
 
-
-            URL url;
-            String response = "";
             try {
-                url = new URL(params[0]);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getPostDataString(postData));
-
-                writer.flush();
-                writer.close();
-                os.close();
-                int responseCode = conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line = br.readLine()) != null) {
-                        response += line;
-                    }
-                } else {
-                    response = "";
-
+                PastebinRequest request = new PastebinRequest(params[0]);
+                request.postData(postData);
+                if (request.resultOk()) {
+                    dataReturned = request.getResponse();
+                    status = true;
                 }
-
-                dataReturned = response;
-
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -234,10 +163,9 @@ public class MainActivity extends AppCompatActivity
                 case 0:             //for trending posts
                     postData = getTrendPastePostData();
                     break;
-                default:
+                default:            //default hashmap
                     postData = new HashMap<>();
             }
-            //Toast.makeText(MainActivity.this, postData.toString(), Toast.LENGTH_LONG).show();
         }
 
         @Override
