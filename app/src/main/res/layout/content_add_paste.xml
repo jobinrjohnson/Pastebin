@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/etPasteName"
@@ -65,7 +65,7 @@
 
 
                 <EditText
-                    android:id="@+id/etPaste"
+                    android:id="@+id/etPastetext"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center_horizontal"
@@ -79,7 +79,7 @@
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/btnCommit"
+                        android:id="@+id/btnProceed3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
