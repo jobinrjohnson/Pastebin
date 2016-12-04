@@ -38,8 +38,6 @@ import javax.xml.parsers.ParserConfigurationException;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView mtv;
-
     RecyclerView recyclerView;
 
     @Override
@@ -73,12 +71,10 @@ public class MainActivity extends AppCompatActivity
 
         loadFrontProfile();
 
-        mtv = (TextView) findViewById(R.id.mTV);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        LinearLayoutManager customLayoutManager = new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        recyclerView.setLayoutManager(customLayoutManager);
+        recyclerView.setLayoutManager(layoutManager);
 
 
     }
@@ -165,6 +161,7 @@ public class MainActivity extends AppCompatActivity
                 InputSource is = new InputSource(sr);
                 Document d = builder.parse(is);
                 nList = d.getElementsByTagName("paste");
+
             } catch (ParserConfigurationException e) {
                 e.printStackTrace();
             } catch (SAXException e) {
@@ -233,7 +230,7 @@ public class MainActivity extends AppCompatActivity
             public MyViewHolder(View itemView) {
                 super(itemView);
 
-                paste_title = (TextView) findViewById(R.id.paste_title);
+                paste_title = (TextView) itemView.findViewById(R.id.paste_title);
 
             }
         }
@@ -304,44 +301,9 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (status) {
-                //Toast.makeText(MainActivity.this, dataReturned, Toast.LENGTH_LONG).show();
-                mtv.setText(dataReturned);
 
-                PastesAdapter pastesAdapter = new PastesAdapter(s);
+                PastesAdapter pastesAdapter = new PastesAdapter(dataReturned);
                 recyclerView.setAdapter(pastesAdapter);
-
-
-//                String rx = "";
-//
-//                DocumentBuilderFactory factory;
-//                DocumentBuilder builder;
-//                factory = DocumentBuilderFactory.newInstance();
-//                try {
-//                    builder = factory.newDocumentBuilder();
-//                    StringReader sr = new StringReader(modedData);
-//                    InputSource is = new InputSource(sr);
-//                    Document d = builder.parse(is);
-//
-//                    NodeList nList = d.getElementsByTagName("paste");
-//
-//                    for (int i = 0; i < nList.getLength(); i++) {
-//                        Node node = nList.item(i);
-//                        if (node.getNodeType() == Node.ELEMENT_NODE) {
-//                            Element element = (Element) node;
-//                            rx += getValue("paste_key", element);
-//                        }
-//                    }
-//
-//                } catch (ParserConfigurationException e) {
-//                    e.printStackTrace();
-//                } catch (SAXException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                mtv.setText(rx);
-
 
             } else {
                 Toast.makeText(MainActivity.this, "Nothing returned", Toast.LENGTH_LONG).show();
