@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="paste_format_name">
+        <item>4CS</item>
+        <item>6502 ACME Cross Assembler</item>
+        <item>6502 Kick Assembler</item>
+        <item>6502 TASM/64TASS</item>
+        <item>ABAP</item>
+        <item>ActionScript</item>
+        <item>ActionScript 3</item>
+        <item>Ada</item>
+        <item>AIMMS</item>
+        <item>ALGOL 68</item>
+        <item>Apache Log</item>
+        <item>AppleScript</item>
+        <item>APT Sources</item>
+        <item>ARM</item>
+        <item>ASM (NASM)</item>
+        <item>ASP</item>
+        <item>Asymptote</item>
+        <item>autoconf</item>
+        <item>Autohotkey</item>
+        <item>AutoIt</item>
+        <item>Avisynth</item>
+        <item>Awk</item>
+        <item>BASCOM AVR</item>
+        <item>Bash</item>
+        <item>Basic4GL</item>
+        <item>Batch</item>
+        <item>BibTeX</item>
+        <item>Blitz Basic</item>
+        <item>Blitz3D</item>
+        <item>BlitzMax</item>
+        <item>BNF</item>
+        <item>BOO</item>
+        <item>BrainFuck</item>
+        <item>C</item>
+        <item>C (WinAPI)</item>
+        <item>C for Macs</item>
+        <item>C Intermediate Language</item>
+        <item>C#</item>
+        <item>C++</item>
+        <item>C++ (WinAPI)</item>
+        <item>C++ (with Qt extensions)</item>
+        <item>C: Loadrunner</item>
+        <item>CAD DCL</item>
+        <item>CAD Lisp</item>
+        <item>CFDG</item>
+        <item>ChaiScript</item>
+        <item>Chapel</item>
+        <item>Clojure</item>
+        <item>Clone C</item>
+        <item>Clone C++</item>
+        <item>CMake</item>
+        <item>COBOL</item>
+        <item>CoffeeScript</item>
+        <item>ColdFusion</item>
+        <item>CSS</item>
+        <item>Cuesheet</item>
+        <item>D</item>
+        <item>Dart</item>
+        <item>DCL</item>
+        <item>DCPU-16</item>
+        <item>DCS</item>
+        <item>Delphi</item>
+        <item>Delphi Prism (Oxygene)</item>
+        <item>Diff</item>
+        <item>DIV</item>
+        <item>DOT</item>
+        <item>E</item>
+        <item>Easytrieve</item>
+        <item>ECMAScript</item>
+        <item>Eiffel</item>
+        <item>Email</item>
+        <item>EPC</item>
+        <item>Erlang</item>
+        <item>Euphoria</item>
+        <item>F#</item>
+        <item>Falcon</item>
+        <item>Filemaker</item>
+        <item>FO Language</item>
+        <item>Formula One</item>
+        <item>Fortran</item>
+        <item>FreeBasic</item>
+        <item>FreeSWITCH</item>
+        <item>GAMBAS</item>
+        <item>Game Maker</item>
+        <item>GDB</item>
+        <item>Genero</item>
+        <item>Genie</item>
+        <item>GetText</item>
+        <item>Go</item>
+        <item>Groovy</item>
+        <item>GwBasic</item>
+        <item>Haskell</item>
+        <item>Haxe</item>
+        <item>HicEst</item>
+        <item>HQ9 Plus</item>
+        <item>HTML</item>
+        <item>HTML 5</item>
+        <item>Icon</item>
+        <item>IDL</item>
+        <item>INI file</item>
+        <item>Inno Script</item>
+        <item>INTERCAL</item>
+        <item>IO</item>
+        <item>ISPF Panel Definition</item>
+        <item>J</item>
+        <item>Java</item>
+        <item>Java 5</item>
+        <item>JavaScript</item>
+        <item>JCL</item>
+        <item>jSomething is wrong</item>
+        <item>JSON</item>
+        <item>Julia</item>
+        <item>KiXtart</item>
+        <item>Latex</item>
+        <item>LDIF</item>
+        <item>Liberty BASIC</item>
+        <item>Linden Scripting</item>
+        <item>Lisp</item>
+        <item>LLVM</item>
+        <item>Loco Basic</item>
+        <item>Logtalk</item>
+        <item>LOL Code</item>
+        <item>Lotus Formulas</item>
+        <item>Lotus Script</item>
+        <item>LScript</item>
+        <item>Lua</item>
+        <item>M68000 Assembler</item>
+        <item>MagikSF</item>
+        <item>Make</item>
+        <item>MapBasic</item>
+        <item>Markdown</item>
+        <item>MatLab</item>
+        <item>mIRC</item>
+        <item>MIX Assembler</item>
+        <item>Modula 2</item>
+        <item>Modula 3</item>
+        <item>Motorola 68000 HiSoft Dev</item>
+        <item>MPASM</item>
+        <item>MXML</item>
+        <item>MySQL</item>
+        <item>Nagios</item>
+        <item>NetRexx</item>
+        <item>newLISP</item>
+        <item>Nginx</item>
+        <item>Nimrod</item>
+        <item>None</item>
+        <item>NullSoft Installer</item>
+        <item>Oberon 2</item>
+        <item>Objeck Programming Langua</item>
+        <item>Objective C</item>
+        <item>OCalm Brief</item>
+        <item>OCaml</item>
+        <item>Octave</item>
+        <item>Open Object Rexx</item>
+        <item>OpenBSD PACKET FILTER</item>
+        <item>OpenGL Shading</item>
+        <item>Openoffice BASIC</item>
+        <item>Oracle 11</item>
+        <item>Oracle 8</item>
+        <item>Oz</item>
+        <item>ParaSail</item>
+        <item>PARI/GP</item>
+        <item>Pascal</item>
+        <item>Pawn</item>
+        <item>PCRE</item>
+        <item>Per</item>
+        <item>Perl</item>
+        <item>Perl 6</item>
+        <item>PHP</item>
+        <item>PHP Brief</item>
+        <item>Pic 16</item>
+        <item>Pike</item>
+        <item>Pixel Bender</item>
+        <item>PL/I</item>
+        <item>PL/SQL</item>
+        <item>PostgreSQL</item>
+        <item>PostScript</item>
+        <item>POV-Ray</item>
+        <item>Power Shell</item>
+        <item>PowerBuilder</item>
+        <item>ProFTPd</item>
+        <item>Progress</item>
+        <item>Prolog</item>
+        <item>Properties</item>
+        <item>ProvideX</item>
+        <item>Puppet</item>
+        <item>PureBasic</item>
+        <item>PyCon</item>
+        <item>Python</item>
+        <item>Python for S60</item>
+        <item>q/kdb+</item>
+        <item>QBasic</item>
+        <item>QML</item>
+        <item>R</item>
+        <item>Racket</item>
+        <item>Rails</item>
+        <item>RBScript</item>
+        <item>REBOL</item>
+        <item>REG</item>
+        <item>Rexx</item>
+        <item>Robots</item>
+        <item>RPM Spec</item>
+        <item>Ruby</item>
+        <item>Ruby Gnuplot</item>
+        <item>Rust</item>
+        <item>SAS</item>
+        <item>Scala</item>
+        <item>Scheme</item>
+        <item>Scilab</item>
+        <item>SCL</item>
+        <item>SdlBasic</item>
+        <item>Smalltalk</item>
+        <item>Smarty</item>
+        <item>SPARK</item>
+        <item>SPARQL</item>
+        <item>SQF</item>
+        <item>SQL</item>
+        <item>StandardML</item>
+        <item>StoneScript</item>
+        <item>SuperCollider</item>
+        <item>Swift</item>
+        <item>SystemVerilog</item>
+        <item>T-SQL</item>
+        <item>TCL</item>
+        <item>Tera Term</item>
+        <item>thinBasic</item>
+        <item>TypoScript</item>
+        <item>Unicon</item>
+        <item>UnrealScript</item>
+        <item>UPC</item>
+        <item>Urbi</item>
+        <item>Vala</item>
+        <item>VB.NET</item>
+        <item>VBScript</item>
+        <item>Vedit</item>
+        <item>VeriLog</item>
+        <item>VHDL</item>
+        <item>VIM</item>
+        <item>Visual Pro Log</item>
+        <item>VisualBasic</item>
+        <item>VisualFoxPro</item>
+        <item>WhiteSpace</item>
+        <item>WHOIS</item>
+        <item>Winbatch</item>
+        <item>XBasic</item>
+        <item>XML</item>
+        <item>Xorg Something is wrong</item>
+        <item>XPP</item>
+        <item>YAML</item>
+        <item>Z80 Assembler</item>
+        <item>ZXBasic</item>
+    </string-array>
+</resources>
