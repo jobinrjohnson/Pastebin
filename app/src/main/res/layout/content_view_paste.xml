@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="in.pastebin.jobinrjohnson.ViewPaste"
+    tools:showIn="@layout/activity_view_paste">
+
+    <!--<EditText-->
+    <!--android:id="@+id/etPastetext"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="top|left"-->
+    <!--android:hint="Paste or type text here"-->
+    <!--android:singleLine="false"-->
+    <!--android:inputType="textMultiLine"-->
+    <!--android:maxLines="100000"-->
+    <!--android:minLines="6"-->
+    <!--android:nestedScrollingEnabled="true"-->
+    <!--android:textAlignment="gravity"-->
+    <!--android:textSize="13dp"-->
+    <!--android:editable="true"-->
+    <!--android:focusable="false"-->
+    <!--android:enabled="true"-->
+    <!--android:visibility="gone"/>-->
+
+
+    <com.pddstudio.highlightjs.HighlightJsView
+        android:id="@+id/highlight_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-12dp" />
+
+
+</RelativeLayout>

@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,12 +104,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -218,11 +216,21 @@ public class MainActivity extends AppCompatActivity
             Node node = nList.item(position);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 try {
-                    Element element = (Element) node;
+                    final Element element = (Element) node;
                     holder.paste_title.setText(getValue("paste_title", element));
                     holder.paste_format_long.setText(getValue("paste_format_long", element));
                     holder.paste_size.setText(getValue("paste_size", element) + "B");
                     holder.paste_hits.setText(getValue("paste_hits", element) + " Hits");
+
+                    holder.container.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(MainActivity.this, ViewPaste.class);
+                            i.putExtra("paste_id", getValue("paste_key", element));
+                            startActivity(i);
+                        }
+                    });
+
                 } catch (Exception e) {
                     holder.paste_title.setText(e.getMessage());
                 }
@@ -233,6 +241,7 @@ public class MainActivity extends AppCompatActivity
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView paste_title, paste_format_long, paste_size, paste_hits;
+            LinearLayout container;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
@@ -241,6 +250,7 @@ public class MainActivity extends AppCompatActivity
                 paste_format_long = (TextView) itemView.findViewById(R.id.paste_format_long);
                 paste_size = (TextView) itemView.findViewById(R.id.paste_size);
                 paste_hits = (TextView) itemView.findViewById(R.id.paste_hits);
+                container = (LinearLayout) itemView.findViewById(R.id.llcontainer);
 
             }
         }
