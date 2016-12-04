@@ -9,17 +9,35 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView mtv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +69,8 @@ public class MainActivity extends AppCompatActivity
 
 
         loadFrontProfile();
+
+        mtv = (TextView) findViewById(R.id.mTV);
 
     }
 
@@ -116,6 +136,91 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
+    public class PastesAdapter extends RecyclerView.Adapter<PastesAdapter.MyViewHolder> {
+
+        DocumentBuilderFactory factory;
+        DocumentBuilder builder;
+
+        NodeList nList;
+
+        public PastesAdapter(String data) {
+            super();
+            String modedData = data;
+            factory = DocumentBuilderFactory.newInstance();
+
+            try {
+                builder = factory.newDocumentBuilder();
+                StringReader sr = new StringReader(modedData);
+                InputSource is = new InputSource(sr);
+                Document d = builder.parse(is);
+                nList = d.getElementsByTagName("paste");
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        private String getValue(String tag, Element element) {
+            NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+            Node node = nodeList.item(0);
+            return node.getNodeValue();
+        }
+
+        @Override
+        public int getItemCount() {
+            return nList.getLength();
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public String getPasteKey(int position) {
+            Node node = nList.item(position);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                return getValue("paste_key", element);
+            }
+            return "";
+        }
+
+        public String getPasteUrl(int position) {
+            Node node = nList.item(position);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                return getValue("paste_url", element);
+            }
+            return "";
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_home_pastes, parent, false);
+            return new MyViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder holder, int position) {
+
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            public TextView name, close;
+
+            public MyViewHolder(View itemView) {
+                super(itemView);
+
+            }
+        }
+    }
+
+
     private class ServerPaste extends AsyncTask<String, Void, String> {
 
         HashMap<String, String> postData;
@@ -135,6 +240,7 @@ public class MainActivity extends AppCompatActivity
             HashMap<String, String> data = new HashMap<>();
             data.put("api_option", "trends");
             data.put("api_dev_key", getResources().getString(R.string.api_key));
+            data.put("api_results_limit", "100");
             return data;
         }
 
@@ -168,11 +274,57 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+
+        private String getValue(String tag, Element element) {
+            NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+            Node node = nodeList.item(0);
+            return node.getNodeValue();
+        }
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (status) {
                 //Toast.makeText(MainActivity.this, dataReturned, Toast.LENGTH_LONG).show();
+                mtv.setText(dataReturned);
+
+                String modedData = "<?xml version=\"1.0\"?>\n" +
+                        "<records>" + dataReturned + "\t\n" +
+                        "</records>";
+
+
+                String rx = "";
+
+                DocumentBuilderFactory factory;
+                DocumentBuilder builder;
+                factory = DocumentBuilderFactory.newInstance();
+                try {
+                    builder = factory.newDocumentBuilder();
+                    StringReader sr = new StringReader(modedData);
+                    InputSource is = new InputSource(sr);
+                    Document d = builder.parse(is);
+
+                    NodeList nList = d.getElementsByTagName("paste");
+
+                    for (int i = 0; i < nList.getLength(); i++) {
+                        Node node = nList.item(i);
+                        if (node.getNodeType() == Node.ELEMENT_NODE) {
+                            Element element = (Element) node;
+                            rx += getValue("paste_key", element);
+                        }
+                    }
+
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                } catch (SAXException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                mtv.setText(rx);
+
+
             } else {
                 Toast.makeText(MainActivity.this, "Nothing returned", Toast.LENGTH_LONG).show();
             }
