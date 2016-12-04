@@ -106,7 +106,7 @@ public class AddPaste extends AppCompatActivity {
             PastebinRequest request = null;
             try {
                 request = new PastebinRequest(params[0]);
-                request.postData(postData);
+                //request.postData(postData);
                 if (request.resultOk()) {
                     status = true;
                     dataReturned = request.getResponse();
