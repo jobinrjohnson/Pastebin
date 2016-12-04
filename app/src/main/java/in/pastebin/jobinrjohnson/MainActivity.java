@@ -148,7 +148,6 @@ public class MainActivity extends AppCompatActivity
             super();
             String modedData = data;
             factory = DocumentBuilderFactory.newInstance();
-
             try {
                 builder = factory.newDocumentBuilder();
                 StringReader sr = new StringReader(modedData);
@@ -208,13 +207,22 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
 
+            Node node = nList.item(position);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                holder.paste_title.setText(getValue("paste_key", element));
+            }
+
+
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView name, close;
+            public TextView paste_title, close;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
+
+                paste_title = (TextView) findViewById(R.id.paste_title);
 
             }
         }
