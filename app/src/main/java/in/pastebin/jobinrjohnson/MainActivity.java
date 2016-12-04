@@ -1,6 +1,7 @@
 package in.pastebin.jobinrjohnson;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView recyclerView;
+    View headerview;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,25 +71,27 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
+        headerview = navigationView.getHeaderView(0);
         loadFrontProfile();
+        initVars();
 
+    }
+
+    void initVars() {
+        sp = getSharedPreferences("user_key", MODE_PRIVATE);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
         final LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
-
-
-        View headerview = navigationView.getHeaderView(0);
-
         headerview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                if (sp.contains("user_key")) {
+
+                } else {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
             }
         });
-
     }
 
     public void loadFrontProfile() {
