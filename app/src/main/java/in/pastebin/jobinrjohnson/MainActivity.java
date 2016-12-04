@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView mtv;
+
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,12 @@ public class MainActivity extends AppCompatActivity
         loadFrontProfile();
 
         mtv = (TextView) findViewById(R.id.mTV);
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        LinearLayoutManager customLayoutManager = new LinearLayoutManager(getBaseContext(), LinearLayoutManager.VERTICAL, false);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        recyclerView.setLayoutManager(customLayoutManager);
+
 
     }
 
@@ -146,7 +155,9 @@ public class MainActivity extends AppCompatActivity
 
         public PastesAdapter(String data) {
             super();
-            String modedData = data;
+            String modedData = "<?xml version=\"1.0\"?>\n" +
+                    "<records>" + data + "\t\n" +
+                    "</records>";
             factory = DocumentBuilderFactory.newInstance();
             try {
                 builder = factory.newDocumentBuilder();
@@ -296,41 +307,40 @@ public class MainActivity extends AppCompatActivity
                 //Toast.makeText(MainActivity.this, dataReturned, Toast.LENGTH_LONG).show();
                 mtv.setText(dataReturned);
 
-                String modedData = "<?xml version=\"1.0\"?>\n" +
-                        "<records>" + dataReturned + "\t\n" +
-                        "</records>";
+                PastesAdapter pastesAdapter = new PastesAdapter(s);
+                recyclerView.setAdapter(pastesAdapter);
 
 
-                String rx = "";
-
-                DocumentBuilderFactory factory;
-                DocumentBuilder builder;
-                factory = DocumentBuilderFactory.newInstance();
-                try {
-                    builder = factory.newDocumentBuilder();
-                    StringReader sr = new StringReader(modedData);
-                    InputSource is = new InputSource(sr);
-                    Document d = builder.parse(is);
-
-                    NodeList nList = d.getElementsByTagName("paste");
-
-                    for (int i = 0; i < nList.getLength(); i++) {
-                        Node node = nList.item(i);
-                        if (node.getNodeType() == Node.ELEMENT_NODE) {
-                            Element element = (Element) node;
-                            rx += getValue("paste_key", element);
-                        }
-                    }
-
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                } catch (SAXException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                mtv.setText(rx);
+//                String rx = "";
+//
+//                DocumentBuilderFactory factory;
+//                DocumentBuilder builder;
+//                factory = DocumentBuilderFactory.newInstance();
+//                try {
+//                    builder = factory.newDocumentBuilder();
+//                    StringReader sr = new StringReader(modedData);
+//                    InputSource is = new InputSource(sr);
+//                    Document d = builder.parse(is);
+//
+//                    NodeList nList = d.getElementsByTagName("paste");
+//
+//                    for (int i = 0; i < nList.getLength(); i++) {
+//                        Node node = nList.item(i);
+//                        if (node.getNodeType() == Node.ELEMENT_NODE) {
+//                            Element element = (Element) node;
+//                            rx += getValue("paste_key", element);
+//                        }
+//                    }
+//
+//                } catch (ParserConfigurationException e) {
+//                    e.printStackTrace();
+//                } catch (SAXException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                mtv.setText(rx);
 
 
             } else {
