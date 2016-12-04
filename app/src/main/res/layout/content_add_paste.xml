@@ -48,6 +48,19 @@
                     android:layout_gravity="center_horizontal"
                     android:entries="@array/paste_privacy" />
 
+                <Spinner
+                    android:id="@+id/spPasteFormat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/paste_format_name" />
+
+                <Spinner
+                    android:id="@+id/spPasteExpiry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:entries="@array/paste_expire_date_name" />
+
                 <Button
                     android:id="@+id/btnProceed1"
                     android:layout_width="wrap_content"
