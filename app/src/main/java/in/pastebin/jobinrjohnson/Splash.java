@@ -24,7 +24,7 @@ public class Splash extends AppCompatActivity {
                     //Thread sleapt for 1000 increase later
                     //
 
-                    startActivity(new Intent(Splash.this, MainActivity.class));
+                    startActivity(new Intent(Splash.this, LoginActivity.class));
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
