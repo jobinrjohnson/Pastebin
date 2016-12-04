@@ -41,7 +41,7 @@
                 android:textSize="30dp" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/etusername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -53,7 +53,7 @@
                 android:paddingTop="20dp" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/etpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -66,7 +66,7 @@
                 android:paddingTop="20dp" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btnSignin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -77,7 +77,7 @@
                 android:textColor="#ffffff" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/tvForgotPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -85,7 +85,7 @@
                 android:text="Forgot Password" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnSignup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

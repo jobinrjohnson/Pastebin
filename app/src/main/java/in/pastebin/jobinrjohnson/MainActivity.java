@@ -78,6 +78,15 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
 
 
+        View headerview = navigationView.getHeaderView(0);
+
+        headerview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+
     }
 
     public void loadFrontProfile() {
