@@ -217,20 +217,30 @@ public class MainActivity extends AppCompatActivity
 
             Node node = nList.item(position);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                holder.paste_title.setText(getValue("paste_key", element));
+                try {
+                    Element element = (Element) node;
+                    holder.paste_title.setText(getValue("paste_title", element));
+                    holder.paste_format_long.setText(getValue("paste_format_long", element));
+                    holder.paste_size.setText(getValue("paste_size", element) + "B");
+                    holder.paste_hits.setText(getValue("paste_hits", element) + " Hits");
+                } catch (Exception e) {
+                    holder.paste_title.setText(e.getMessage());
+                }
             }
 
 
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView paste_title, close;
+            public TextView paste_title, paste_format_long, paste_size, paste_hits;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
 
                 paste_title = (TextView) itemView.findViewById(R.id.paste_title);
+                paste_format_long = (TextView) itemView.findViewById(R.id.paste_format_long);
+                paste_size = (TextView) itemView.findViewById(R.id.paste_size);
+                paste_hits = (TextView) itemView.findViewById(R.id.paste_hits);
 
             }
         }
@@ -256,7 +266,6 @@ public class MainActivity extends AppCompatActivity
             HashMap<String, String> data = new HashMap<>();
             data.put("api_option", "trends");
             data.put("api_dev_key", getResources().getString(R.string.api_key));
-            data.put("api_results_limit", "100");
             return data;
         }
 
@@ -292,9 +301,13 @@ public class MainActivity extends AppCompatActivity
 
 
         private String getValue(String tag, Element element) {
-            NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-            Node node = nodeList.item(0);
-            return node.getNodeValue();
+            try {
+                NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+                Node node = nodeList.item(0);
+                return node.getNodeValue();
+            } catch (Exception e) {
+                return "";
+            }
         }
 
         @Override
