@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ public class AddPaste extends AppCompatActivity {
     EditText etPasteName, etPasteText;
     Spinner spPastePrivacy;
     String name, privacy, pasteText;
+    int step = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +54,7 @@ public class AddPaste extends AppCompatActivity {
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                llFirstStep.setVisibility(View.GONE);
-                ll3rdStep.setVisibility(View.VISIBLE);
+                navigateStep(true);
             }
         });
 
@@ -73,6 +74,34 @@ public class AddPaste extends AppCompatActivity {
         privacy = spPastePrivacy.getSelectedItemPosition() + "";
         new ServerPaste().execute(url);
     }
+
+    void navigateStep(boolean up) {
+        if (up) {
+            llFirstStep.setVisibility(View.GONE);
+            ll3rdStep.setVisibility(View.VISIBLE);
+            step++;
+        } else {
+            if (step == 0)
+                finish();
+            else {
+                llFirstStep.setVisibility(View.VISIBLE);
+                ll3rdStep.setVisibility(View.GONE);
+                step--;
+            }
+        }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                navigateStep(false);
+                break;
+        }
+        return true;
+    }
+
 
 
     private class ServerPaste extends AsyncTask<String, Void, String> {
