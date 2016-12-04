@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (status) {
-                Toast.makeText(MainActivity.this, dataReturned, Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, dataReturned, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(MainActivity.this, "Nothing returned", Toast.LENGTH_LONG).show();
             }

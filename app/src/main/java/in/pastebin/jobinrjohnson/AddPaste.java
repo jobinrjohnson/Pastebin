@@ -1,5 +1,6 @@
 package in.pastebin.jobinrjohnson;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 public class AddPaste extends AppCompatActivity {
 
     LinearLayout llFirstStep, ll3rdStep;
-    Button btnProceed, btnProceed3;
+    Button btnProceed;
     EditText etPasteName, etPasteText;
     Spinner spPastePrivacy;
     String name, privacy, pasteText;
@@ -49,7 +49,6 @@ public class AddPaste extends AppCompatActivity {
         spPastePrivacy = (Spinner) findViewById(R.id.spPastePrivacy);
 
         btnProceed = (Button) findViewById(R.id.btnProceed);
-        btnProceed3 = (Button) findViewById(R.id.btnProceed3);
 
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,12 +57,6 @@ public class AddPaste extends AppCompatActivity {
             }
         });
 
-        btnProceed3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doSomePost();
-            }
-        });
 
     }
 
@@ -77,18 +70,29 @@ public class AddPaste extends AppCompatActivity {
 
     void navigateStep(boolean up) {
         if (up) {
-            llFirstStep.setVisibility(View.GONE);
-            ll3rdStep.setVisibility(View.VISIBLE);
             step++;
+            if (step == 1) {
+                llFirstStep.setVisibility(View.GONE);
+                ll3rdStep.setVisibility(View.VISIBLE);
+            } else if (step == 2) {
+                doSomePost();
+            } else {
+                --step;
+            }
         } else {
             if (step == 0)
                 finish();
             else {
                 llFirstStep.setVisibility(View.VISIBLE);
                 ll3rdStep.setVisibility(View.GONE);
-                step--;
+                step = 0;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigateStep(false);
     }
 
 
@@ -103,13 +107,14 @@ public class AddPaste extends AppCompatActivity {
     }
 
 
-
     private class ServerPaste extends AsyncTask<String, Void, String> {
 
         HashMap<String, String> postData;
         String dataReturned;
         boolean status = false;
         int type;
+
+        ProgressDialog progressDialog;
 
         ServerPaste(int type) {
             this.type = type;
@@ -134,13 +139,13 @@ public class AddPaste extends AppCompatActivity {
 
             PastebinRequest request = null;
             try {
-                request = new PastebinRequest(params[0]);
+                //request = new PastebinRequest(params[0]);
                 //request.postData(postData);
-                if (request.resultOk()) {
-                    status = true;
-                    dataReturned = request.getResponse();
-                }
-            } catch (IOException e) {
+                //if (request.resultOk()) {
+                //    status = true;
+                //   dataReturned = request.getResponse();
+                //}
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -156,12 +161,17 @@ public class AddPaste extends AppCompatActivity {
                 default:
                     postData = new HashMap<>();
             }
+            progressDialog = new ProgressDialog(AddPaste.this);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setTitle("Sending your paste...");
+            progressDialog.show();
             Toast.makeText(AddPaste.this, postData.toString(), Toast.LENGTH_LONG).show();
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            progressDialog.dismiss();
             if (status) {
                 Toast.makeText(AddPaste.this, dataReturned, Toast.LENGTH_LONG).show();
             } else {

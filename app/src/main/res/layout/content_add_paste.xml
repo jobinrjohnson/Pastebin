@@ -113,31 +113,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:weightSum="10">
-
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/etPastetext"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="top"
-                    android:layout_weight="8"
-                    android:maxLines="100000" />
+                    android:layout_height="match_parent"
+                    android:gravity="top|left"
+                    android:hint="Paste or type text here"
+                    android:inputType="textMultiLine"
+                    android:lines="8"
+                    android:maxLines="100000"
+                    android:minLines="6"
+                    android:textAlignment="gravity" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/btnProceed3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="Commit Paste" />
-
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
