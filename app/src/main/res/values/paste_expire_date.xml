@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--N = Never-->
+    <!--10M = 10 Minutes-->
+    <!--1H = 1 Hour-->
+    <!--1D = 1 Day-->
+    <!--1W = 1 Week-->
+    <!--2W = 2 Weeks-->
+    <!--1M = 1 Month-->
+
+    <string-array name="paste_expire_date_name">
+        <item>Never</item>
+        <item>10 Minutes</item>
+        <item>1 Hour</item>
+        <item>1 Day</item>
+        <item>1 Week</item>
+        <item>2 Weeks</item>
+        <item>1 Month</item>
+    </string-array>
+
+    <string-array name="paste_expire_date_value">
+        <item>N</item>
+        <item>10M</item>
+        <item>1H</item>
+        <item>1D</item>
+        <item>1W</item>
+        <item>2W</item>
+        <item>1M</item>
+    </string-array>
+
+</resources>
