@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class AddPaste extends AppCompatActivity {
 
     LinearLayout llFirstStep, ll3rdStep;
-    Button btnProceed1, btnProceed3;
+    Button btnProceed, btnProceed3;
     EditText etPasteName, etPasteText;
     Spinner spPastePrivacy;
     String name, privacy, pasteText;
@@ -46,10 +46,10 @@ public class AddPaste extends AppCompatActivity {
         etPasteText = (EditText) findViewById(R.id.etPastetext);
         spPastePrivacy = (Spinner) findViewById(R.id.spPastePrivacy);
 
-        btnProceed1 = (Button) findViewById(R.id.btnProceed1);
+        btnProceed = (Button) findViewById(R.id.btnProceed);
         btnProceed3 = (Button) findViewById(R.id.btnProceed3);
 
-        btnProceed1.setOnClickListener(new View.OnClickListener() {
+        btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 llFirstStep.setVisibility(View.GONE);

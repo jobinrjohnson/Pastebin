@@ -64,12 +64,6 @@
                     android:layout_gravity="center_horizontal"
                     android:entries="@array/paste_expire_date_name" />
 
-                <Button
-                    android:id="@+id/btnProceed1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Paste" />
             </LinearLayout>
 
             <LinearLayout
@@ -112,9 +106,12 @@
         android:layout_weight="2">
 
         <Button
+            android:id="@+id/btnProceed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Proceed" />
+            android:background="@color/colorAccent"
+            android:text="Proceed"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
