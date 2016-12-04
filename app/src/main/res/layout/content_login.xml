@@ -33,10 +33,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="30dp"
                 android:gravity="center_horizontal"
                 android:text="PASTEBIN"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimary"
                 android:textSize="30dp" />
 
             <EditText
@@ -69,9 +70,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@color/colorPrimary"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
+                android:background="@color/colorAccent"
+                android:paddingBottom="13dp"
+                android:paddingTop="13dp"
                 android:text="LOG IN"
                 android:textColor="#ffffff" />
 
@@ -90,8 +91,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@color/abc_search_url_text_normal"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
+                android:paddingBottom="13dp"
+                android:paddingTop="13dp"
                 android:text="SIGN UP"
                 android:textColor="#ffffff" />
         </LinearLayout>
