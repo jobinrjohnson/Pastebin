@@ -74,7 +74,16 @@ public class MainActivity extends AppCompatActivity
         headerview = navigationView.getHeaderView(0);
         loadFrontProfile();
         initVars();
+        setupUserSettings();
 
+    }
+
+    void setupUserSettings() {
+        if (sp.contains("user_key")) {
+
+        } else {
+
+        }
     }
 
     void initVars() {
