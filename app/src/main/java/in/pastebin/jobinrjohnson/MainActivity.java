@@ -18,9 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -75,6 +76,31 @@ public class MainActivity extends AppCompatActivity
         loadFrontProfile();
         initVars();
         setupUserSettings();
+
+    }
+
+    void dudeChangedStatus(int status) {
+
+        ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar);
+        TextView tv = (TextView) findViewById(R.id.textView7);
+        ImageView iv = (ImageView) findViewById(R.id.errimview);
+        LinearLayout statDiv = (LinearLayout) findViewById(R.id.statDiv);
+
+        switch (status) {
+            case 0:
+                pb.setVisibility(View.GONE);
+                iv.setVisibility(View.VISIBLE);
+                tv.setText("Unable to get data.");
+                break;
+            case 1:
+                statDiv.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                break;
+            default:
+                pb.setVisibility(View.VISIBLE);
+                iv.setVisibility(View.GONE);
+                tv.setText("Loading.");
+        }
 
     }
 
@@ -153,7 +179,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
 
         }
 
@@ -350,9 +376,10 @@ public class MainActivity extends AppCompatActivity
 
                 PastesAdapter pastesAdapter = new PastesAdapter(dataReturned);
                 recyclerView.setAdapter(pastesAdapter);
+                dudeChangedStatus(1);
 
             } else {
-                Toast.makeText(MainActivity.this, "Nothing returned", Toast.LENGTH_LONG).show();
+                dudeChangedStatus(0);
             }
         }
     }
