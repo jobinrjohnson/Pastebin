@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -85,12 +86,21 @@ public class MainActivity extends AppCompatActivity
         TextView tv = (TextView) findViewById(R.id.textView7);
         ImageView iv = (ImageView) findViewById(R.id.errimview);
         LinearLayout statDiv = (LinearLayout) findViewById(R.id.statDiv);
+        Button errButton = (Button) findViewById(R.id.err_reload);
+
+        errButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFrontProfile();
+            }
+        });
 
         switch (status) {
             case 0:
                 pb.setVisibility(View.GONE);
                 iv.setVisibility(View.VISIBLE);
-                tv.setText("Unable to get data.");
+                tv.setText("An error occured. Unable to get data.");
+                errButton.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 statDiv.setVisibility(View.GONE);
@@ -99,6 +109,7 @@ public class MainActivity extends AppCompatActivity
             default:
                 pb.setVisibility(View.VISIBLE);
                 iv.setVisibility(View.GONE);
+                errButton.setVisibility(View.GONE);
                 tv.setText("Loading.");
         }
 
@@ -349,6 +360,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dudeChangedStatus(2);
             switch (type) {
                 case 0:             //for trending posts
                     postData = getTrendPastePostData();
