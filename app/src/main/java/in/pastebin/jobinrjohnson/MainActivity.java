@@ -277,7 +277,6 @@ public class MainActivity extends AppCompatActivity
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 try {
                     final Element element = (Element) node;
-                    holder.paste_title.setText(getValue("paste_title", element));
                     holder.paste_format_long.setText(getValue("paste_format_long", element));
                     holder.paste_size.setText(getValue("paste_size", element) + "B");
                     holder.paste_hits.setText(getValue("paste_hits", element) + " Hits");
@@ -291,8 +290,10 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
 
+                    holder.paste_title.setText(getValue("paste_title", element));
+
                 } catch (Exception e) {
-                    holder.paste_title.setText(e.getMessage());
+                    holder.paste_title.setText("No title.");
                 }
             }
 
