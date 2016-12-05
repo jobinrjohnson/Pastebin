@@ -10,43 +10,7 @@
     tools:context="in.pastebin.jobinrjohnson.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-
-    <LinearLayout
-        android:id="@+id/statDiv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <ImageView
-                android:id="@+id/errimview"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:src="@drawable/error"
-                android:visibility="gone" />
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="Loading.."
-            android:textAlignment="center"
-            android:textSize="20dp" />
-    </LinearLayout>
+    <include layout="@layout/error_layout" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
