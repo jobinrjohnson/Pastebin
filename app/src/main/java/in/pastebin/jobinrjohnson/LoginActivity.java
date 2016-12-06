@@ -158,6 +158,13 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("user_key", dataReturned.trim());
                     editor.commit();
+
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+
+
                 } else {
                     new AlertDialog.Builder(LoginActivity.this)
                             .setTitle("Delete entry")
