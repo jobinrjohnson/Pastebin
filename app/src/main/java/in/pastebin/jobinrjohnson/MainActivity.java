@@ -286,6 +286,11 @@ public class MainActivity extends AppCompatActivity
                         public void onClick(View v) {
                             Intent i = new Intent(MainActivity.this, ViewPaste.class);
                             i.putExtra("paste_id", getValue("paste_key", element));
+                            try {
+                                i.putExtra("paste_name", getValue("paste_title", element));
+                            } catch (Exception e) {
+                                i.putExtra("paste_name", "View Paste");
+                            }
                             startActivity(i);
                         }
                     });

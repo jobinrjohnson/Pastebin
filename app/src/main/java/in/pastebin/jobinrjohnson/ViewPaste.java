@@ -21,15 +21,7 @@ import java.util.HashMap;
 import io.github.kbiakov.codeview.CodeView;
 import io.github.kbiakov.codeview.classifier.CodeProcessor;
 
-//import com.pddstudio.highlightjs.HighlightJsView;
-//import com.pddstudio.highlightjs.models.Language;
-//import com.pddstudio.highlightjs.models.Theme;
-
 public class ViewPaste extends AppCompatActivity {
-
-//    EditText etPastetext;
-//
-//    HighlightJsView highlightJsView;
 
     CodeView codeView;
 
@@ -50,46 +42,16 @@ public class ViewPaste extends AppCompatActivity {
             }
         });
 
-//        etPastetext = (EditText) findViewById(R.id.etPastetext);
         Bundle extras = getIntent().getExtras();
         String paste_id = extras.getString("paste_id");
+        if (extras.containsKey("paste_name")) {
+            getSupportActionBar().setTitle(extras.getString("paste_name"));
+        }
 
         new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
 
-//
-
-//        highlightJsView = (HighlightJsView) findViewById(R.id.highlight_view);
-//
-//        highlightJsView.setOnThemeChangedListener(new HighlightJsView.OnThemeChangedListener() {
-//            @Override
-//            public void onThemeChanged(@NonNull Theme theme) {
-//
-//            }
-//        });
-//
-//        //change theme and set language to auto detect
-//        highlightJsView.setTheme(Theme.ANDROID_STUDIO);
-//        highlightJsView.setHighlightLanguage(Language.AUTO_DETECT);
-//        try {
-//            highlightJsView.setSource(new URL("http://pastebin.com/raw/" + paste_id));
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        highlightJsView.setOnContentChangedListener(new HighlightJsView.OnContentChangedListener() {
-//            @Override
-//            public void onContentChanged() {
-//                if (pd.isShowing()) {
-//                    pd.dismiss();
-//                }
-//            }
-//        });
-
-
         CodeProcessor.init(this);
         codeView = (CodeView) findViewById(R.id.code_view);
-
 
     }
 
@@ -122,8 +84,6 @@ public class ViewPaste extends AppCompatActivity {
 
         public HashMap<String, String> getRawPostData() {
             HashMap<String, String> data = new HashMap<>();
-            //data.put("api_option", "trends");
-            //data.put("api_dev_key", getResources().getString(R.string.api_key));
             return data;
         }
 
