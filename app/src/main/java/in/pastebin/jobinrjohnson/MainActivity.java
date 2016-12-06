@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     RecyclerView recyclerView;
     View headerview;
     SharedPreferences sp;
-
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerview = navigationView.getHeaderView(0);
         loadFrontProfile();
@@ -124,6 +124,17 @@ public class MainActivity extends AppCompatActivity
 
             tvName.setText(sp.getString("user_name", "Unnamed User"));
             tvEmail.setText(sp.getString("user_email", "Unknown email"));
+
+
+            MenuItem it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_logout);
+            it.setVisible(true);
+            it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_trending);
+            it.setVisible(true);
+            it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_login);
+            it.setVisible(false);
+            it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_user);
+            it.setVisible(true);
+
 
         } else {
 
@@ -186,19 +197,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_logout) {
-
-        }
+//        if (id == R.id.nav_camera) {
+//            // Handle the camera action
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

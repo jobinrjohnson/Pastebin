@@ -3,34 +3,49 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/nav_add_paste"
+            android:icon="@drawable/ic_add_paste_black"
             android:title="Import" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_trending"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Trending" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="Trending"
+            android:visible="false" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Settings" />
     </group>
 
     <item android:title="User">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:id="@+id/nav_login"
+                android:icon="@drawable/ic_login"
                 android:title="Share" />
+            <item
+                android:id="@+id/nav_user"
+                android:icon="@drawable/ic_user"
+                android:title="You"
+                android:visible="false" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Logout" />
+                android:title="Logout"
+                android:visible="false" />
         </menu>
+    </item>
+
+    <item android:title="About">
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_about"
+            android:title="About" />
+        <item
+            android:id="@+id/nav_policy"
+            android:icon="@drawable/ic_user"
+            android:title="Privacy Policy"
+            android:visible="false" />
     </item>
 
 </menu>
