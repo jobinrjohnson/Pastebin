@@ -145,7 +145,7 @@ public class ViewPaste extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             try {
-                PastebinRequest request = new PastebinRequest(params[0]);
+                PastebinRequest request = new PastebinRequest(params[0], ViewPaste.this);
                 request.postData(postData);
                 if (request.resultOk()) {
                     dataReturned = request.getResponseAsIs();

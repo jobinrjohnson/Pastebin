@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
         HashMap<String, String> postData;
         String dataReturned;
-        boolean status = false;
+        boolean status = false, apistatus = false;
         int type;
 
         ProgressDialog progressDialog;
@@ -119,9 +119,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (request.isApiError()) {
                         dataReturned = request.getApiErrors();
+                    } else {
+                        dataReturned = request.getResponse();
+                        apistatus = true;
                     }
 
-                    dataReturned = request.getResponse();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity
         protected String doInBackground(String... params) {
 
             try {
-                PastebinRequest request = new PastebinRequest(params[0]);
+                PastebinRequest request = new PastebinRequest(params[0], MainActivity.this);
                 request.postData(postData);
                 if (request.resultOk()) {
                     dataReturned = request.getResponse();
