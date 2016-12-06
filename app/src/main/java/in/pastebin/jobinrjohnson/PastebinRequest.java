@@ -24,6 +24,7 @@ public class PastebinRequest {
 
     HttpURLConnection conn;
     Context context;
+    String returned;
 
     public PastebinRequest(String murl, Context mcontext) throws IOException {
         context = mcontext;
@@ -63,19 +64,15 @@ public class PastebinRequest {
         return false;
     }
 
-    public String getResponse() throws IOException {
-        String response = "";
-        if (resultOk()) {
-            String line;
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            while ((line = br.readLine()) != null) {
-                response += line;
-            }
-        }
-        return response;
+    public String getResponse() {
+        return returned;
     }
 
-    public String getResponseAsIs() throws IOException {
+    public String getResponseAsIs() {
+        return returned;
+    }
+
+    public void readStream() throws IOException {
         String response = "";
         if (resultOk()) {
             String line;
@@ -84,29 +81,28 @@ public class PastebinRequest {
                 response += (line + System.getProperty("line.separator"));
             }
         }
-        return response;
+        returned = response;
     }
 
     public String getApiErrors() throws IOException {
-        String errors = "", line, api_error = context.getResources().getString(R.string.api_bad_req_code);
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        while ((line = br.readLine()) != null) {
+        String errors = "Error Occured : ", line, api_error = context.getResources().getString(R.string.api_bad_req_code);
+        String[] lines = getResponse().split(System.getProperty("line.separator"));
+
+        for (int i = 0; i < lines.length; i++) {
+            line = lines[i];
             if (line.contains(api_error)) {
                 errors += line.substring(line.lastIndexOf(api_error + api_error.length()), line.length());
             }
         }
+
         return errors;
     }
 
     public boolean isApiError() {
-        try {
-            String response = getResponse();
-            if (response.contains(context.getResources().getString(R.string.api_bad_req_code))) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (IOException e) {
+        String response = getResponse();
+        if (response.contains(context.getResources().getString(R.string.api_bad_req_code))) {
+            return true;
+        } else {
             return false;
         }
     }
@@ -121,6 +117,7 @@ public class PastebinRequest {
         writer.flush();
         writer.close();
         os.close();
+        readStream();
     }
 
 }
