@@ -3,7 +3,6 @@ package in.pastebin.jobinrjohnson;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,18 +11,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.pddstudio.highlightjs.HighlightJsView;
-import com.pddstudio.highlightjs.models.Language;
-import com.pddstudio.highlightjs.models.Theme;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
+
+import io.github.kbiakov.codeview.CodeView;
+import io.github.kbiakov.codeview.classifier.CodeProcessor;
 
 //import com.pddstudio.highlightjs.HighlightJsView;
 //import com.pddstudio.highlightjs.models.Language;
@@ -32,8 +28,10 @@ import java.util.HashMap;
 public class ViewPaste extends AppCompatActivity {
 
 //    EditText etPastetext;
+//
+//    HighlightJsView highlightJsView;
 
-    HighlightJsView highlightJsView;
+    CodeView codeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,40 +54,41 @@ public class ViewPaste extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String paste_id = extras.getString("paste_id");
 
-        //new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
+        new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
 
-        final ProgressDialog pd = new ProgressDialog(ViewPaste.this);
-        pd.setIndeterminate(true);
-        pd.setTitle("Loding Paste..");
-        pd.show();
+//
 
-        highlightJsView = (HighlightJsView) findViewById(R.id.highlight_view);
+//        highlightJsView = (HighlightJsView) findViewById(R.id.highlight_view);
+//
+//        highlightJsView.setOnThemeChangedListener(new HighlightJsView.OnThemeChangedListener() {
+//            @Override
+//            public void onThemeChanged(@NonNull Theme theme) {
+//
+//            }
+//        });
+//
+//        //change theme and set language to auto detect
+//        highlightJsView.setTheme(Theme.ANDROID_STUDIO);
+//        highlightJsView.setHighlightLanguage(Language.AUTO_DETECT);
+//        try {
+//            highlightJsView.setSource(new URL("http://pastebin.com/raw/" + paste_id));
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        highlightJsView.setOnContentChangedListener(new HighlightJsView.OnContentChangedListener() {
+//            @Override
+//            public void onContentChanged() {
+//                if (pd.isShowing()) {
+//                    pd.dismiss();
+//                }
+//            }
+//        });
 
-        highlightJsView.setOnThemeChangedListener(new HighlightJsView.OnThemeChangedListener() {
-            @Override
-            public void onThemeChanged(@NonNull Theme theme) {
 
-            }
-        });
-
-        //change theme and set language to auto detect
-        highlightJsView.setTheme(Theme.ANDROID_STUDIO);
-        highlightJsView.setHighlightLanguage(Language.AUTO_DETECT);
-        try {
-            highlightJsView.setSource(new URL("http://pastebin.com/raw/" + paste_id));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-
-        highlightJsView.setOnContentChangedListener(new HighlightJsView.OnContentChangedListener() {
-            @Override
-            public void onContentChanged() {
-                if (pd.isShowing()) {
-                    pd.dismiss();
-                }
-            }
-        });
+        CodeProcessor.init(this);
+        codeView = (CodeView) findViewById(R.id.code_view);
 
 
     }
@@ -111,6 +110,7 @@ public class ViewPaste extends AppCompatActivity {
         String dataReturned;
         boolean status = false;
         int type;
+        ProgressDialog pd;
 
         ServerPaste(int type) {
             this.type = type;
@@ -134,7 +134,7 @@ public class ViewPaste extends AppCompatActivity {
                 PastebinRequest request = new PastebinRequest(params[0]);
                 request.postData(postData);
                 if (request.resultOk()) {
-                    dataReturned = request.getResponse();
+                    dataReturned = request.getResponseAsIs();
                     status = true;
                 }
             } catch (IOException e) {
@@ -148,6 +148,11 @@ public class ViewPaste extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pd = new ProgressDialog(ViewPaste.this);
+            pd.setIndeterminate(true);
+            pd.setTitle("Loding Paste..");
+            pd.setMessage("Please wait.");
+            pd.show();
             switch (type) {
                 case 0:             //for trending posts
                     postData = getRawPostData();
@@ -172,11 +177,13 @@ public class ViewPaste extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (status) {
-
-//                etPastetext.setText(dataReturned.replaceAll("\n", System.getProperty("line.separator")));
-
+                codeView.setCode(dataReturned);
             } else {
-                Toast.makeText(ViewPaste.this, "Nothing returned", Toast.LENGTH_LONG).show();
+                Toast.makeText(ViewPaste.this, "Some error occured.", Toast.LENGTH_LONG).show();
+                finish();
+            }
+            if (pd.isShowing()) {
+                pd.dismiss();
             }
         }
     }

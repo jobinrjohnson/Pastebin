@@ -71,6 +71,18 @@ public class PastebinRequest {
         return response;
     }
 
+    public String getResponseAsIs() throws IOException {
+        String response = "";
+        if (resultOk()) {
+            String line;
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            while ((line = br.readLine()) != null) {
+                response += (line + System.getProperty("line.separator"));
+            }
+        }
+        return response;
+    }
+
 
     public void postData(HashMap postData) throws IOException {
         OutputStream os = conn.getOutputStream();

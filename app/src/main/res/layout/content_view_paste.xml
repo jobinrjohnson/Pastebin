@@ -27,11 +27,17 @@
     <!--android:visibility="gone"/>-->
 
 
-    <com.pddstudio.highlightjs.HighlightJsView
-        android:id="@+id/highlight_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-12dp" />
+    <!--<com.pddstudio.highlightjs.HighlightJsView-->
+    <!--android:id="@+id/highlight_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginTop="-12dp" />-->
+
+
+    <io.github.kbiakov.codeview.CodeView
+        android:id="@+id/code_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </RelativeLayout>
