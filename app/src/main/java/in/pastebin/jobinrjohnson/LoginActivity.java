@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnSignin, btnSignup;
     TextView tvForgotPass;
 
-    String username, password;
+    String username, password, user_key;
 
     SharedPreferences sp;
 
@@ -95,10 +95,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    void executeStoreUser() {
-
-    }
-
     private class LoginPbin extends AsyncTask<String, Void, String> {
 
         HashMap<String, String> postData;
@@ -128,8 +124,7 @@ public class LoginActivity extends AppCompatActivity {
             HashMap<String, String> data = new HashMap<>();
             data.put("api_option", "userdetails");
             data.put("api_dev_key", getResources().getString(R.string.api_key));
-            data.put("api_user_name", username);
-            data.put("api_user_password", password);
+            data.put("api_user_key", user_key);
             return data;
         }
 
@@ -181,7 +176,8 @@ public class LoginActivity extends AppCompatActivity {
             return node.getNodeValue();
         }
 
-        public boolean parseUserData(SharedPreferences.Editor editor) {
+        public boolean parseUserData() {
+            SharedPreferences.Editor editor = sp.edit();
             DocumentBuilderFactory factory;
             DocumentBuilder builder;
             NodeList nList;
@@ -231,14 +227,14 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (status) {
                 if (apistatus) {
-                    SharedPreferences.Editor editor = sp.edit();
+
                     switch (type) {
                         case 0:
-                            editor.putString("user_key", dataReturned.trim());
-                            editor.apply();
+                            user_key = dataReturned.trim();
+                            new LoginPbin(1).execute(getResources().getString(R.string.api_url) + "api_login.php");
                             break;
                         case 1:
-                            parseUserData(editor);
+                            parseUserData();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
