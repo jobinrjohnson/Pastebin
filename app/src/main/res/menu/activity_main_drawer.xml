@@ -7,18 +7,14 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Your Pastes" />
         <item
-            android:id="@+id/nav_add_paste"
-            android:icon="@drawable/ic_add_paste_black"
-            android:title="New Paste" />
-        <item
             android:id="@+id/nav_trending"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Trending"
             android:visible="false" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Settings" />
+            android:id="@+id/nav_add_paste"
+            android:icon="@drawable/ic_add_paste_black"
+            android:title="New Paste" />
     </group>
 
     <item android:title="User">
@@ -32,6 +28,10 @@
                 android:icon="@drawable/ic_user"
                 android:title="You"
                 android:visible="false" />
+            <item
+                android:id="@+id/nav_manage"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Settings" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"

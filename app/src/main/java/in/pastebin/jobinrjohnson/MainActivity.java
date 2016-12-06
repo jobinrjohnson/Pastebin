@@ -217,10 +217,12 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             case R.id.nav_trending:
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("trending", true);
-                startActivity(intent);
+                if (!trends) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("trending", true);
+                    startActivity(intent);
+                }
                 break;
             case R.id.nav_add_paste:
                 startActivity(new Intent(MainActivity.this, AddPaste.class));
