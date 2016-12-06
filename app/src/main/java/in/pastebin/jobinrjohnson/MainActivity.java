@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     void initVars() {
-        sp = getSharedPreferences("user_key", MODE_PRIVATE);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);

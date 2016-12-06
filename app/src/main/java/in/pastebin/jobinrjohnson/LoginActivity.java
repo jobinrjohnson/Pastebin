@@ -225,9 +225,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 editor.commit();
-
-                System.out.println("comitteeeeddddddddddddddddddddddddddddd");
-
                 return true;
 
             } catch (ParserConfigurationException e) {
