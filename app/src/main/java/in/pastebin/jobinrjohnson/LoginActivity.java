@@ -1,11 +1,13 @@
 package in.pastebin.jobinrjohnson;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -34,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().hide();
 
-        sp = getSharedPreferences("user_key", MODE_PRIVATE);
+        sp = getSharedPreferences("user", MODE_PRIVATE);
 
         initVars();
 
@@ -152,9 +154,26 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(s);
             progressDialog.dismiss();
             if (status) {
-                Toast.makeText(LoginActivity.this, dataReturned, Toast.LENGTH_LONG).show();
+                if (apistatus) {
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("user_key", dataReturned.trim());
+                    editor.commit();
+                } else {
+                    new AlertDialog.Builder(LoginActivity.this)
+                            .setTitle("Delete entry")
+                            .setMessage("Are you sure you want to delete this entry?")
+                            .setPositiveButton("Try Again", null)
+                            .setNegativeButton("Forgot Password", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://pastebin.com/passmailer"));
+                                    startActivity(browserIntent);
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
             } else {
-                Toast.makeText(LoginActivity.this, "Nothing returned", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Unable to connect", Toast.LENGTH_LONG).show();
             }
         }
     }

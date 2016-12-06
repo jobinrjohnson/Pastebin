@@ -91,7 +91,7 @@ public class PastebinRequest {
         for (int i = 0; i < lines.length; i++) {
             line = lines[i];
             if (line.contains(api_error)) {
-                errors += line.substring(line.lastIndexOf(api_error + api_error.length()), line.length());
+                errors += line.substring(line.indexOf(api_error) + api_error.length(), line.length());
             }
         }
 
@@ -100,7 +100,7 @@ public class PastebinRequest {
 
     public boolean isApiError() {
         String response = getResponse();
-        if (response.contains(context.getResources().getString(R.string.api_bad_req_code))) {
+        if (response.contains(context.getResources().getString(R.string.api_bad_req_code)) || response == "" || response == null || response == " ") {
             return true;
         } else {
             return false;
