@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity
     View headerview;
     SharedPreferences sp;
     NavigationView navigationView;
+
+    boolean trends = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,12 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         sp = getSharedPreferences("user", MODE_PRIVATE);
+
+        Bundle extras = getIntent().getExtras();
+
+        if (sp.contains("user_key") && !extras.containsKey("trends")) {
+            trends = false;
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +168,7 @@ public class MainActivity extends AppCompatActivity
 
     public void loadFrontProfile() {
         String url = getResources().getString(R.string.api_url) + "api_post.php";
-        new ServerPaste().execute(url);
+        new ServerPaste(trends ? 0 : 1).execute(url);
     }
 
     @Override
@@ -197,9 +206,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        }
+        if (id == R.id.nav_add_paste) {
+            startActivity(new Intent(MainActivity.this, AddPaste.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -216,9 +225,6 @@ public class MainActivity extends AppCompatActivity
 
         public PastesAdapter(String data) {
             super();
-//            String modedData = "<?xml version=\"1.0\"?>\n" +
-//                    "<records>" + data + "\t\n" +
-//                    "</records>";
 
             String modedData = "<records>" + data + "</records>";
             factory = DocumentBuilderFactory.newInstance();
@@ -372,6 +378,15 @@ public class MainActivity extends AppCompatActivity
             return null;
         }
 
+        public HashMap<String, String> getUserPastePostData() {
+            HashMap<String, String> data = new HashMap<>();
+            data.put("api_option", "list");
+            data.put("api_user_key", sp.getString("user_key", ""));
+            data.put("api_results_limit", "999");
+            data.put("api_dev_key", getResources().getString(R.string.api_key));
+            return data;
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -380,21 +395,14 @@ public class MainActivity extends AppCompatActivity
                 case 0:             //for trending posts
                     postData = getTrendPastePostData();
                     break;
+                case 1:             //for user posts
+                    postData = getUserPastePostData();
+                    break;
                 default:            //default hashmap
                     postData = new HashMap<>();
             }
         }
 
-
-        private String getValue(String tag, Element element) {
-            try {
-                NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-                Node node = nodeList.item(0);
-                return node.getNodeValue();
-            } catch (Exception e) {
-                return "";
-            }
-        }
 
         @Override
         protected void onPostExecute(String s) {
