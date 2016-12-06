@@ -181,8 +181,6 @@ public class LoginActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sp.edit();
             DocumentBuilderFactory factory;
             DocumentBuilder builder;
-            NodeList nList;
-
             String modedData = dataReturned;
             factory = DocumentBuilderFactory.newInstance();
             try {
@@ -226,7 +224,10 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("user_account_type", "0");
                 }
 
-                editor.apply();
+                editor.commit();
+
+                System.out.println("comitteeeeddddddddddddddddddddddddddddd");
+
                 return true;
 
             } catch (ParserConfigurationException e) {
@@ -243,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Toast.makeText(LoginActivity.this, dataReturned, Toast.LENGTH_LONG).show();
+            //Toast.makeText(LoginActivity.this, dataReturned, Toast.LENGTH_LONG).show();
             if (type == 1 && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
