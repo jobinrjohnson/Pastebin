@@ -182,38 +182,51 @@ public class LoginActivity extends AppCompatActivity {
             DocumentBuilderFactory factory;
             DocumentBuilder builder;
             NodeList nList;
-            String userData[] = new String[5];
 
-            String modedData = "<?xml version=\"1.0\"?>\n" +
-                    "<records>" + dataReturned + "\t\n" +
-                    "</records>";
+            String modedData = dataReturned;
             factory = DocumentBuilderFactory.newInstance();
             try {
                 builder = factory.newDocumentBuilder();
                 StringReader sr = new StringReader(modedData);
                 InputSource is = new InputSource(sr);
                 Document d = builder.parse(is);
-                nList = d.getElementsByTagName("paste");
 
-                Node node = nList.item(0);
-                final Element element = (Element) node;
+                Element element = d.getDocumentElement();
 
                 editor.putString("user_key", user_key);
-                editor.putString("user_name", getValue("user_name", element));
-                System.out.println("-----------------------" + getValue("user_name", element));
-                editor.putString("user_avatar_url", getValue("user_avatar_url", element));
-                System.out.println("-----------------------" + getValue("user_avatar_url", element));
-                editor.putString("user_website", getValue("user_website", element));
-                System.out.println("-----------------------" + getValue("user_website", element));
-                editor.putString("user_email", getValue("user_email", element));
-                System.out.println("-----------------------" + getValue("user_email", element));
-                editor.putString("user_location", getValue("user_location", element));
-                System.out.println("-----------------------" + getValue("user_location", element));
-                editor.putString("user_account_type", getValue("user_account_type", element));
-                System.out.println("-----------------------" + getValue("user_account_type", element));
+
+                try {
+                    editor.putString("user_name", getValue("user_name", element));
+                } catch (Exception e) {
+                    editor.putString("user_name", "Unnamed User");
+                }
+                try {
+                    editor.putString("user_avatar_url", getValue("user_avatar_url", element));
+                } catch (Exception e) {
+                    editor.putString("user_avatar_url", "http://pastebin.com/i/guest.png");
+                }
+                try {
+                    editor.putString("user_website", getValue("user_website", element));
+                } catch (Exception e) {
+                    editor.putString("user_website", "No Website");
+                }
+                try {
+                    editor.putString("user_email", getValue("user_email", element));
+                } catch (Exception e) {
+                    editor.putString("user_email", "No email");
+                }
+                try {
+                    editor.putString("user_location", getValue("user_location", element));
+                } catch (Exception e) {
+                    editor.putString("user_location", "My Location");
+                }
+                try {
+                    editor.putString("user_account_type", getValue("user_account_type", element));
+                } catch (Exception e) {
+                    editor.putString("user_account_type", "0");
+                }
 
                 editor.apply();
-
                 return true;
 
             } catch (ParserConfigurationException e) {

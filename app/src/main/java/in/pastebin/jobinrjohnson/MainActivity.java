@@ -206,9 +206,11 @@ public class MainActivity extends AppCompatActivity
 
         public PastesAdapter(String data) {
             super();
-            String modedData = "<?xml version=\"1.0\"?>\n" +
-                    "<records>" + data + "\t\n" +
-                    "</records>";
+//            String modedData = "<?xml version=\"1.0\"?>\n" +
+//                    "<records>" + data + "\t\n" +
+//                    "</records>";
+
+            String modedData = "<records>" + data + "</records>";
             factory = DocumentBuilderFactory.newInstance();
             try {
                 builder = factory.newDocumentBuilder();
