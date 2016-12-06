@@ -24,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -114,6 +116,14 @@ public class MainActivity extends AppCompatActivity
 
     void setupUserSettings() {
         if (sp.contains("user_key")) {
+            Picasso.with(MainActivity.this).load(sp.getString("user_avatar_url", "http://pastebin.com/i/guest.png")).into((ImageView) headerview.findViewById(R.id.myporfpic));
+            TextView tvName, tvEmail;
+
+            tvName = (TextView) headerview.findViewById(R.id.tvMyname);
+            tvEmail = (TextView) headerview.findViewById(R.id.tvEmail);
+
+            tvName.setText(sp.getString("user_name", "Unnamed User"));
+            tvEmail.setText(sp.getString("user_email", "Unknown email"));
 
         } else {
 
