@@ -78,14 +78,14 @@ public class PastebinRequest {
             String line;
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             while ((line = br.readLine()) != null) {
-                response += (line + System.getProperty("line.separator"));
+                response += ((response.equals("") ? "" : System.getProperty("line.separator")) + line);
             }
         }
         returned = response;
     }
 
     public String getApiErrors() throws IOException {
-        String errors = "Error Occured : ", line, api_error = context.getResources().getString(R.string.api_bad_req_code);
+        String errors = "", line, api_error = context.getResources().getString(R.string.api_bad_req_code);
         String[] lines = getResponse().split(System.getProperty("line.separator"));
 
         for (int i = 0; i < lines.length; i++) {

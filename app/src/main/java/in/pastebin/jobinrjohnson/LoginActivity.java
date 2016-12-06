@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvForgotPass;
 
     String username, password, user_key;
+    ProgressDialog progressDialog;
 
     SharedPreferences sp;
 
@@ -102,8 +103,6 @@ public class LoginActivity extends AppCompatActivity {
         boolean status = false, apistatus = false;
         int type;
 
-        ProgressDialog progressDialog;
-
         LoginPbin(int type) {
             this.type = type;
         }
@@ -123,8 +122,8 @@ public class LoginActivity extends AppCompatActivity {
         public HashMap<String, String> getUserDataMap() {
             HashMap<String, String> data = new HashMap<>();
             data.put("api_option", "userdetails");
-            data.put("api_dev_key", getResources().getString(R.string.api_key));
             data.put("api_user_key", user_key);
+            data.put("api_dev_key", getResources().getString(R.string.api_key));
             return data;
         }
 
@@ -158,16 +157,18 @@ public class LoginActivity extends AppCompatActivity {
             switch (type) {
                 case 0:
                     postData = getLoginData();
+                    progressDialog = new ProgressDialog(LoginActivity.this);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setTitle("Logging you in...");
+                    progressDialog.setMessage("Please wait.");
+                    progressDialog.show();
                     break;
                 case 1:
                     postData = getUserDataMap();
+                    break;
                 default:
                     postData = new HashMap<>();
             }
-            progressDialog = new ProgressDialog(LoginActivity.this);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setTitle("Logging you in...");
-            progressDialog.show();
         }
 
         private String getValue(String tag, Element element) {
@@ -197,12 +198,19 @@ public class LoginActivity extends AppCompatActivity {
                 Node node = nList.item(0);
                 final Element element = (Element) node;
 
+                editor.putString("user_key", user_key);
                 editor.putString("user_name", getValue("user_name", element));
+                System.out.println("-----------------------" + getValue("user_name", element));
                 editor.putString("user_avatar_url", getValue("user_avatar_url", element));
+                System.out.println("-----------------------" + getValue("user_avatar_url", element));
                 editor.putString("user_website", getValue("user_website", element));
+                System.out.println("-----------------------" + getValue("user_website", element));
                 editor.putString("user_email", getValue("user_email", element));
+                System.out.println("-----------------------" + getValue("user_email", element));
                 editor.putString("user_location", getValue("user_location", element));
+                System.out.println("-----------------------" + getValue("user_location", element));
                 editor.putString("user_account_type", getValue("user_account_type", element));
+                System.out.println("-----------------------" + getValue("user_account_type", element));
 
                 editor.apply();
 
@@ -222,6 +230,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Toast.makeText(LoginActivity.this, dataReturned, Toast.LENGTH_LONG).show();
             if (type == 1 && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
@@ -229,8 +238,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (apistatus) {
                     switch (type) {
                         case 0:
-                            user_key = dataReturned.trim();
-                            new LoginPbin(1).execute(getResources().getString(R.string.api_url) + "api_login.php");
+                            user_key = dataReturned;
+                            new LoginPbin(1).execute(getResources().getString(R.string.api_url) + "api_post.php");
                             break;
                         case 1:
                             parseUserData();
