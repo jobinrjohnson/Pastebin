@@ -227,7 +227,6 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (status) {
                 if (apistatus) {
-
                     switch (type) {
                         case 0:
                             user_key = dataReturned.trim();
@@ -241,9 +240,12 @@ public class LoginActivity extends AppCompatActivity {
                             break;
                     }
                 } else {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
                     new AlertDialog.Builder(LoginActivity.this)
-                            .setTitle("Delete entry")
-                            .setMessage("Are you sure you want to delete this entry?")
+                            .setTitle("Unable to login")
+                            .setMessage(dataReturned)
                             .setPositiveButton("Try Again", null)
                             .setNegativeButton("Forgot Password", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -251,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(browserIntent);
                                 }
                             })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setIcon(R.drawable.error)
                             .show();
                 }
             } else {
