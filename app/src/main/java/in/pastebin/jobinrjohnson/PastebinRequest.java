@@ -1,5 +1,7 @@
 package in.pastebin.jobinrjohnson;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -21,8 +23,10 @@ import javax.net.ssl.HttpsURLConnection;
 public class PastebinRequest {
 
     HttpURLConnection conn;
+    Context context;
 
-    public PastebinRequest(String murl) throws IOException {
+    public PastebinRequest(String murl, Context mcontext) throws IOException {
+        context = mcontext;
         URL url = new URL(murl);
         conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(15000);
@@ -81,6 +85,30 @@ public class PastebinRequest {
             }
         }
         return response;
+    }
+
+    public String getApiErrors() throws IOException {
+        String errors = "", line, api_error = context.getResources().getString(R.string.api_bad_req_code);
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        while ((line = br.readLine()) != null) {
+            if (line.contains(api_error)) {
+                errors += line.substring(line.lastIndexOf(api_error + api_error.length()), line.length());
+            }
+        }
+        return errors;
+    }
+
+    public boolean isApiError() {
+        try {
+            String response = getResponse();
+            if (response.contains(context.getResources().getString(R.string.api_bad_req_code))) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (IOException e) {
+            return false;
+        }
     }
 
 

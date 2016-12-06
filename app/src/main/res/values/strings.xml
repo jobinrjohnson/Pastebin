@@ -4,6 +4,7 @@
     <string name="title_activity_main">PasteBin</string>
 
     <string name="api_url">http://pastebin.com/api/</string>
+    <string name="api_bad_req_code">Bad API request</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
