@@ -112,10 +112,15 @@ public class LoginActivity extends AppCompatActivity {
 
             PastebinRequest request = null;
             try {
-                request = new PastebinRequest(params[0]);
+                request = new PastebinRequest(params[0], LoginActivity.this);
                 request.postData(postData);
                 if (request.resultOk()) {
                     status = true;
+
+                    if (request.isApiError()) {
+                        dataReturned = request.getApiErrors();
+                    }
+
                     dataReturned = request.getResponse();
                 }
             } catch (Exception e) {
