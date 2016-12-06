@@ -3,9 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_yourPastes"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Your Pastes" />
+        <item
             android:id="@+id/nav_add_paste"
             android:icon="@drawable/ic_add_paste_black"
-            android:title="Import" />
+            android:title="New Paste" />
         <item
             android:id="@+id/nav_trending"
             android:icon="@drawable/ic_menu_gallery"
@@ -37,15 +41,15 @@
     </item>
 
     <item android:title="About">
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/ic_about"
-            android:title="About" />
-        <item
-            android:id="@+id/nav_policy"
-            android:icon="@drawable/ic_user"
-            android:title="Privacy Policy"
-            android:visible="false" />
+        <menu>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_about"
+                android:title="About" />
+            <item
+                android:id="@+id/nav_policy"
+                android:icon="@drawable/ic_user"
+                android:title="Privacy Policy" />
+        </menu>
     </item>
-
 </menu>

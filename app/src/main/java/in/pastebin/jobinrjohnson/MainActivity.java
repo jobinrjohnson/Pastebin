@@ -61,9 +61,11 @@ public class MainActivity extends AppCompatActivity
 
         Bundle extras = getIntent().getExtras();
 
-        if (sp.contains("user_key") && !extras.containsKey("trends")) {
+        if (sp.contains("user_key") && extras == null) {
             trends = false;
         }
+
+        getSupportActionBar().setTitle((trends ? "Today's Trending" : "Your") + " Pastes");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -206,8 +208,23 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_add_paste) {
-            startActivity(new Intent(MainActivity.this, AddPaste.class));
+        switch (id) {
+            case R.id.nav_yourPastes:
+                if (trends) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+                break;
+            case R.id.nav_trending:
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("trending", true);
+                startActivity(intent);
+                break;
+            case R.id.nav_add_paste:
+                startActivity(new Intent(MainActivity.this, AddPaste.class));
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -408,11 +425,9 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (status) {
-
                 PastesAdapter pastesAdapter = new PastesAdapter(dataReturned);
                 recyclerView.setAdapter(pastesAdapter);
                 dudeChangedStatus(1);
-
             } else {
                 dudeChangedStatus(0);
             }
