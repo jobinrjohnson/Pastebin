@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity
 
             MenuItem it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_logout);
             it.setVisible(true);
-            it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_trending);
+            it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_yourPastes);
             it.setVisible(true);
             it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_login);
             it.setVisible(false);
