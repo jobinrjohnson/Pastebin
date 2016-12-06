@@ -13,4 +13,5 @@
     <string name="title_activity_add_paste">New Paste</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_view_paste">View Paste</string>
+    <string name="title_activity_user_home">UserHome</string>
 </resources>

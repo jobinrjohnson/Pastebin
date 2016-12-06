@@ -35,6 +35,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.pastebin.jobinrjohnson.MainActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,6 +61,15 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".UserHome"
+            android:label="@string/title_activity_user_home"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.pastebin.jobinrjohnson.MainActivity" />
         </activity>
     </application>
 

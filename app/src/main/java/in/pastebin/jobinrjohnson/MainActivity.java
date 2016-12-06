@@ -227,6 +227,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_add_paste:
                 startActivity(new Intent(MainActivity.this, AddPaste.class));
                 break;
+            case R.id.nav_user:
+
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
