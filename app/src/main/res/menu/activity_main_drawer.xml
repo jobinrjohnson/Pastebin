@@ -22,7 +22,7 @@
             <item
                 android:id="@+id/nav_login"
                 android:icon="@drawable/ic_login"
-                android:title="Share" />
+                android:title="Login" />
             <item
                 android:id="@+id/nav_user"
                 android:icon="@drawable/ic_user"

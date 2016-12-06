@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (sp.contains("user_key")) {
-
+                    startActivity(new Intent(MainActivity.this, UserHome.class));
                 } else {
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }
@@ -233,10 +233,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, UserHome.class));
                 break;
             case R.id.nav_logout:
-
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Confirm")
-                        .setMessage("Are you sure to logut")
+                        .setMessage("Are you sure to logout")
                         .setPositiveButton("Cancel", null)
                         .setNegativeButton("Logout", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -250,9 +249,12 @@ public class MainActivity extends AppCompatActivity
                                 startActivity(intent);
                             }
                         })
-                        .setIcon(R.drawable.error)
+                        .setIcon(R.drawable.ic_menu_send)
                         .show();
 
+                break;
+            case R.id.nav_login:
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 break;
         }
 
