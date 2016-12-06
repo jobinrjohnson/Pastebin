@@ -1,5 +1,6 @@
 package in.pastebin.jobinrjohnson;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -228,6 +230,28 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, AddPaste.class));
                 break;
             case R.id.nav_user:
+                startActivity(new Intent(MainActivity.this, UserHome.class));
+                break;
+            case R.id.nav_logout:
+
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Confirm")
+                        .setMessage("Are you sure to logut")
+                        .setPositiveButton("Cancel", null)
+                        .setNegativeButton("Logout", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                SharedPreferences.Editor ediit = sp.edit();
+                                ediit.clear();
+                                ediit.commit();
+
+                                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        })
+                        .setIcon(R.drawable.error)
+                        .show();
 
                 break;
         }
