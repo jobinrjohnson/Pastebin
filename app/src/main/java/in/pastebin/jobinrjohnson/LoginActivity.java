@@ -16,7 +16,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -82,6 +95,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    void executeStoreUser() {
+
+    }
 
     private class LoginPbin extends AsyncTask<String, Void, String> {
 
@@ -100,9 +116,17 @@ public class LoginActivity extends AppCompatActivity {
             type = 0;
         }
 
-        public HashMap<String, String> getPasteData() {
+        public HashMap<String, String> getLoginData() {
             HashMap<String, String> data = new HashMap<>();
-            data.put("api_option", "paste");
+            data.put("api_dev_key", getResources().getString(R.string.api_key));
+            data.put("api_user_name", username);
+            data.put("api_user_password", password);
+            return data;
+        }
+
+        public HashMap<String, String> getUserDataMap() {
+            HashMap<String, String> data = new HashMap<>();
+            data.put("api_option", "userdetails");
             data.put("api_dev_key", getResources().getString(R.string.api_key));
             data.put("api_user_name", username);
             data.put("api_user_password", password);
@@ -138,8 +162,10 @@ public class LoginActivity extends AppCompatActivity {
             super.onPreExecute();
             switch (type) {
                 case 0:
-                    postData = getPasteData();
+                    postData = getLoginData();
                     break;
+                case 1:
+                    postData = getUserDataMap();
                 default:
                     postData = new HashMap<>();
             }
@@ -149,22 +175,75 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.show();
         }
 
+        private String getValue(String tag, Element element) {
+            NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+            Node node = nodeList.item(0);
+            return node.getNodeValue();
+        }
+
+        public boolean parseUserData(SharedPreferences.Editor editor) {
+            DocumentBuilderFactory factory;
+            DocumentBuilder builder;
+            NodeList nList;
+            String userData[] = new String[5];
+
+            String modedData = "<?xml version=\"1.0\"?>\n" +
+                    "<records>" + dataReturned + "\t\n" +
+                    "</records>";
+            factory = DocumentBuilderFactory.newInstance();
+            try {
+                builder = factory.newDocumentBuilder();
+                StringReader sr = new StringReader(modedData);
+                InputSource is = new InputSource(sr);
+                Document d = builder.parse(is);
+                nList = d.getElementsByTagName("paste");
+
+                Node node = nList.item(0);
+                final Element element = (Element) node;
+
+                editor.putString("user_name", getValue("user_name", element));
+                editor.putString("user_avatar_url", getValue("user_avatar_url", element));
+                editor.putString("user_website", getValue("user_website", element));
+                editor.putString("user_email", getValue("user_email", element));
+                editor.putString("user_location", getValue("user_location", element));
+                editor.putString("user_account_type", getValue("user_account_type", element));
+
+                editor.apply();
+
+                return true;
+
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+
+        }
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            progressDialog.dismiss();
+            if (type == 1 && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
             if (status) {
                 if (apistatus) {
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("user_key", dataReturned.trim());
-                    editor.commit();
-
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-
-
+                    switch (type) {
+                        case 0:
+                            editor.putString("user_key", dataReturned.trim());
+                            editor.apply();
+                            break;
+                        case 1:
+                            parseUserData(editor);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            break;
+                    }
                 } else {
                     new AlertDialog.Builder(LoginActivity.this)
                             .setTitle("Delete entry")
