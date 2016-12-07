@@ -169,6 +169,15 @@ public class AddPaste extends AppCompatActivity {
             return data;
         }
 
+        public HashMap<String, String> getDeleteData() {
+            HashMap<String, String> data = new HashMap<>();
+            data.put("api_option", "delete");
+            data.put("api_dev_key", getResources().getString(R.string.api_key));
+            data.put("api_user_key", sp.getString("user_key", ""));
+            data.put("api_paste_key", pasteid);
+            return data;
+        }
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -195,16 +204,21 @@ public class AddPaste extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = new ProgressDialog(AddPaste.this);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setTitle("Please wait.");
             switch (type) {
                 case 0:
                     postData = getPasteData();
+                    progressDialog.setMessage("Posting your paste.");
+                    break;
+                case 1:
+                    postData = getDeleteData();
+                    progressDialog.setMessage("Deleting your paste.");
                     break;
                 default:
                     postData = new HashMap<>();
             }
-            progressDialog = new ProgressDialog(AddPaste.this);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setTitle("Sending your paste...");
             progressDialog.show();
             Toast.makeText(AddPaste.this, postData.toString(), Toast.LENGTH_LONG).show();
         }
@@ -216,6 +230,12 @@ public class AddPaste extends AppCompatActivity {
             if (status) {
                 Toast.makeText(AddPaste.this, dataReturned, Toast.LENGTH_LONG).show();
                 if (apiStatus) {
+
+                    if (type == 1) {
+                        Toast.makeText(AddPaste.this, "Paste Deleted", Toast.LENGTH_SHORT).show();
+                        finish();
+                        return;
+                    }
 
                     result = dataReturned;
                     pasteid = dataReturned.substring(dataReturned.lastIndexOf("/") + 1, dataReturned.length());
