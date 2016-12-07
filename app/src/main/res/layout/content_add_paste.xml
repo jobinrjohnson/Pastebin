@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="in.pastebin.jobinrjohnson.AddPaste"
     tools:showIn="@layout/activity_add_paste">
@@ -19,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_weight="1"
         android:fillViewport="true">
 
@@ -33,7 +28,6 @@
                 android:id="@+id/llFirstStep"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -41,7 +35,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border_ll"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
 
                     <TextView
                         android:id="@+id/textView4"
@@ -49,7 +49,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="7dp"
                         android:text="Paste Privacy"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="15dp" />
 
                     <Spinner
                         android:id="@+id/spPastePrivacy"
@@ -65,7 +66,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:background="@drawable/border_ll"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
 
                     <TextView
                         android:id="@+id/textView5"
@@ -73,7 +79,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="7dp"
                         android:text="Paste Format"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="15dp" />
 
                     <Spinner
                         android:id="@+id/spPasteFormat"
@@ -89,7 +96,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:background="@drawable/border_ll"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
 
                     <TextView
                         android:id="@+id/textView6"
@@ -97,7 +109,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="7dp"
                         android:text="Paste Expiry"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="15dp" />
 
                     <Spinner
                         android:id="@+id/spPasteExpiry"
@@ -111,6 +124,30 @@
                         android:paddingTop="10dp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
+
+                    <EditText
+                        android:id="@+id/etPastetext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="top|left"
+                        android:hint="Paste or type text here"
+                        android:inputType="textMultiLine"
+                        android:maxLines="100000"
+                        android:minLines="6"
+                        android:padding="7dp"
+                        android:textAlignment="gravity"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -121,17 +158,6 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <EditText
-                    android:id="@+id/etPastetext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="top|left"
-                    android:hint="Paste or type text here"
-                    android:inputType="textMultiLine"
-                    android:lines="8"
-                    android:maxLines="100000"
-                    android:minLines="6"
-                    android:textAlignment="gravity" />
 
             </LinearLayout>
         </LinearLayout>

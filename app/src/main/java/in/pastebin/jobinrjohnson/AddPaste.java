@@ -29,9 +29,6 @@ public class AddPaste extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_paste);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -40,7 +37,6 @@ public class AddPaste extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         llFirstStep = (LinearLayout) findViewById(R.id.llFirstStep);
         ll3rdStep = (LinearLayout) findViewById(R.id.ll3rdStep);
@@ -61,7 +57,7 @@ public class AddPaste extends AppCompatActivity {
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigateStep(true);
+                doSomePost();
             }
         });
 
