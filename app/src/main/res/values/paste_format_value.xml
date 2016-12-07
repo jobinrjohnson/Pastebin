@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="paste_format_value">
+        <item>text</item>
         <item>4cs</item>
         <item>6502acme</item>
         <item>6502kickass</item>
@@ -146,7 +147,6 @@
         <item>newlisp</item>
         <item>nginx</item>
         <item>nimrod</item>
-        <item>text</item>
         <item>nsis</item>
         <item>oberon2</item>
         <item>objeck</item>

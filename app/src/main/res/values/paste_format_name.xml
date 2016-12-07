@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="paste_format_name">
+        <item>None</item>
         <item>4CS</item>
         <item>6502 ACME Cross Assembler</item>
         <item>6502 Kick Assembler</item>
@@ -146,7 +147,6 @@
         <item>newLISP</item>
         <item>Nginx</item>
         <item>Nimrod</item>
-        <item>None</item>
         <item>NullSoft Installer</item>
         <item>Oberon 2</item>
         <item>Objeck Programming Langua</item>

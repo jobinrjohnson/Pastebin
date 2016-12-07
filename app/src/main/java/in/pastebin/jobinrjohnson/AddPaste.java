@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -89,6 +90,25 @@ public class AddPaste extends AppCompatActivity {
                 ibDelete.setVisibility(View.VISIBLE);
             }
         }
+
+        ibDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(AddPaste.this)
+                        .setTitle("Confirm")
+                        .setMessage("Are you sure to delete this paste")
+                        .setPositiveButton("Cancel", null)
+                        .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String url = getResources().getString(R.string.api_url) + "api_post.php";
+                                new ServerPaste(1).execute(url);
+                            }
+                        })
+                        .setIcon(R.drawable.ic_delete_black)
+                        .show();
+            }
+        });
 
         ibCopyUrl.setOnClickListener(new View.OnClickListener() {
             @Override
