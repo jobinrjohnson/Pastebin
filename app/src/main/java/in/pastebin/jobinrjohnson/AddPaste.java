@@ -132,6 +132,20 @@ public class AddPaste extends AppCompatActivity {
             }
         });
 
+        ibViewPaste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AddPaste.this, ViewPaste.class);
+                i.putExtra("paste_id", pasteid);
+                i.putExtra("paste_name", name);
+                if (sp.contains("user_key")) {
+                    i.putExtra("mine", true);
+                }
+                startActivity(i);
+                finish();
+            }
+        });
+
 
     }
 
