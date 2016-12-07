@@ -262,7 +262,6 @@ public class AddPaste extends AppCompatActivity {
             super.onPostExecute(s);
             progressDialog.dismiss();
             if (status) {
-                Toast.makeText(AddPaste.this, dataReturned, Toast.LENGTH_LONG).show();
                 if (apiStatus) {
 
                     if (type == 1) {
@@ -279,6 +278,7 @@ public class AddPaste extends AppCompatActivity {
 
                     etFinalRes.setText(result);
                     etPasteName.setEnabled(false);
+                    btnProceed.setVisibility(View.GONE);
 
 
                 } else {

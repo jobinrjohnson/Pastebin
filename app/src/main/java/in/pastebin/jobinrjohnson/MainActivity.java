@@ -354,6 +354,9 @@ public class MainActivity extends AppCompatActivity
                             } catch (Exception e) {
                                 i.putExtra("paste_name", "View Paste");
                             }
+                            if (!trends) {
+                                i.putExtra("mine", true);
+                            }
                             startActivity(i);
                         }
                     });

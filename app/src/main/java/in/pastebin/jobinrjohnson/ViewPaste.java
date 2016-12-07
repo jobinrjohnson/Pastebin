@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -34,6 +35,7 @@ public class ViewPaste extends AppCompatActivity {
     Animation fab_open, fab_close, rotate_forward, rotate_backward;
     Boolean isFabOpen = false;
     String result = "", paste_id;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class ViewPaste extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        sp = getSharedPreferences("user", MODE_PRIVATE);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1Share = (FloatingActionButton) findViewById(R.id.fab1Share);
@@ -93,11 +96,17 @@ public class ViewPaste extends AppCompatActivity {
 
         if (!extras.containsKey("mine")) {
             fab3delete.setVisibility(View.GONE);
+            new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
+        } else {
+            new ServerPaste(1).execute(getResources().getString(R.string.api_url) + "api_raw.php");
         }
 
-        new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
 
-        CodeProcessor.init(this);
+        try {
+            CodeProcessor.init(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         codeView = (CodeView) findViewById(R.id.code_view);
 
     }
@@ -165,6 +174,15 @@ public class ViewPaste extends AppCompatActivity {
             return data;
         }
 
+        public HashMap<String, String> getUserRawPostData() {
+            HashMap<String, String> data = new HashMap<>();
+            data.put("api_dev_key", getResources().getString(R.string.api_key));
+            data.put("api_user_key", sp.getString("user_key", ""));
+            data.put("api_paste_key", paste_id);
+            data.put("api_option", "show_paste");
+            return data;
+        }
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -190,10 +208,14 @@ public class ViewPaste extends AppCompatActivity {
             pd.setIndeterminate(true);
             pd.setTitle("Loding Paste..");
             pd.setMessage("Please wait.");
+            pd.setCancelable(false);
             pd.show();
             switch (type) {
-                case 0:             //for trending posts
+                case 0:
                     postData = getRawPostData();
+                    break;
+                case 1:
+                    postData = getUserRawPostData();
                     break;
                 default:            //default hashmap
                     postData = new HashMap<>();
@@ -215,6 +237,15 @@ public class ViewPaste extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (status) {
+
+                if (type == 2) {
+                    Toast.makeText(ViewPaste.this, "Paste deleted", Toast.LENGTH_LONG);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    return;
+                }
+
                 result = dataReturned;
                 codeView.setCode(result);
             } else {
