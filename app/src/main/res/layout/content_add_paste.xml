@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
 
                 <LinearLayout
@@ -155,7 +155,7 @@
                 android:id="@+id/ll3rdStep"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:visibility="visible">
 
 
                 <ImageView
@@ -203,7 +203,7 @@
                         android:orientation="horizontal">
 
                         <ImageButton
-                            android:id="@+id/imageButton"
+                            android:id="@+id/ibShare"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="15dp"
@@ -213,7 +213,7 @@
                             android:src="@drawable/ic_share" />
 
                         <ImageButton
-                            android:id="@+id/imageButton2"
+                            android:id="@+id/ibCopyUrl"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="15dp"
@@ -223,7 +223,7 @@
                             android:src="@drawable/ic_copy_black" />
 
                         <ImageButton
-                            android:id="@+id/imageButton3"
+                            android:id="@+id/ibViewPaste"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="15dp"
@@ -233,7 +233,7 @@
                             android:src="@drawable/ic_view" />
 
                         <ImageButton
-                            android:id="@+id/imageButton4"
+                            android:id="@+id/ibDelete"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="15dp"

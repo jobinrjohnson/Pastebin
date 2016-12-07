@@ -1,6 +1,10 @@
 package in.pastebin.jobinrjohnson;
 
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,10 +25,10 @@ public class AddPaste extends AppCompatActivity {
     LinearLayout llFirstStep;
     RelativeLayout ll3rdStep;
     Button btnProceed;
-    ImageButton btnClose;
+    ImageButton btnClose, ibCopyUrl, ibViewPaste, ibDelete, ibShare;
     EditText etPasteName, etPasteText;
     Spinner spPastePrivacy;
-    String name, privacy, pasteText;
+    String name, privacy, pasteText, result;
     int step = 0;
 
     @Override
@@ -60,6 +64,33 @@ public class AddPaste extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 doSomePost();
+            }
+        });
+
+        ibCopyUrl = (ImageButton) findViewById(R.id.ibCopyUrl);
+        ibViewPaste = (ImageButton) findViewById(R.id.ibViewPaste);
+        ibDelete = (ImageButton) findViewById(R.id.ibDelete);
+        ibShare = (ImageButton) findViewById(R.id.ibShare);
+
+        ibCopyUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("paste", result);
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(AddPaste.this, "Link copied to clipboard", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        ibShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = result;
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pastebin url");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
             }
         });
 
