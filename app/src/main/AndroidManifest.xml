@@ -71,6 +71,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.pastebin.jobinrjohnson.MainActivity" />
         </activity>
+        <activity
+            android:name=".About"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
