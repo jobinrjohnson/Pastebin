@@ -1,6 +1,10 @@
 package in.pastebin.jobinrjohnson;
 
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,9 +30,10 @@ import io.github.kbiakov.codeview.classifier.CodeProcessor;
 public class ViewPaste extends AppCompatActivity {
 
     CodeView codeView;
-    FloatingActionButton fab, fab1, fab2;
+    FloatingActionButton fab, fab1Share, fab2copy, fab3delete;
     Animation fab_open, fab_close, rotate_forward, rotate_backward;
     Boolean isFabOpen = false;
+    String result = "", paste_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,9 @@ public class ViewPaste extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab1Share = (FloatingActionButton) findViewById(R.id.fab1Share);
+        fab2copy = (FloatingActionButton) findViewById(R.id.fab2copy);
+        fab3delete = (FloatingActionButton) findViewById(R.id.fab3delete);
 
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
@@ -54,27 +60,39 @@ public class ViewPaste extends AppCompatActivity {
                 animateFAB();
             }
         });
-        fab1.setOnClickListener(new View.OnClickListener() {
+        fab2copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action2", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                animateFAB();
-            }
-        });
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action22", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("paste", result);
+                clipboard.setPrimaryClip(clip);
+                Snackbar.make(view, "Text copied to clipboard", Snackbar.LENGTH_LONG)
+                        .setAction("Done", null).show();
                 animateFAB();
             }
         });
 
         Bundle extras = getIntent().getExtras();
-        String paste_id = extras.getString("paste_id");
+        paste_id = extras.getString("paste_id");
         if (extras.containsKey("paste_name")) {
             getSupportActionBar().setTitle(extras.getString("paste_name"));
+        }
+
+        fab1Share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "http://pastebin.com/" + paste_id;
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pastebin url");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                animateFAB();
+            }
+        });
+
+        if (!extras.containsKey("mine")) {
+            fab3delete.setVisibility(View.GONE);
         }
 
         new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
@@ -90,19 +108,25 @@ public class ViewPaste extends AppCompatActivity {
         if (isFabOpen) {
 
             fab.startAnimation(rotate_backward);
-            fab1.startAnimation(fab_close);
-            fab2.startAnimation(fab_close);
-            fab1.setClickable(false);
-            fab2.setClickable(false);
+            fab1Share.startAnimation(fab_close);
+            fab2copy.startAnimation(fab_close);
+            fab3delete.startAnimation(fab_close);
+
+            fab1Share.setClickable(false);
+            fab2copy.setClickable(false);
+            fab3delete.setClickable(false);
             isFabOpen = false;
 
         } else {
 
             fab.startAnimation(rotate_forward);
-            fab1.startAnimation(fab_open);
-            fab2.startAnimation(fab_open);
-            fab1.setClickable(true);
-            fab2.setClickable(true);
+            fab1Share.startAnimation(fab_open);
+            fab2copy.startAnimation(fab_open);
+            fab3delete.startAnimation(fab_open);
+
+            fab1Share.setClickable(true);
+            fab2copy.setClickable(true);
+            fab3delete.setClickable(true);
             isFabOpen = true;
 
         }
@@ -191,7 +215,8 @@ public class ViewPaste extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (status) {
-                codeView.setCode(dataReturned);
+                result = dataReturned;
+                codeView.setCode(result);
             } else {
                 Toast.makeText(ViewPaste.this, "Some error occured.", Toast.LENGTH_LONG).show();
                 finish();

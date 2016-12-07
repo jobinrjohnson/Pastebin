@@ -278,6 +278,7 @@ public class AddPaste extends AppCompatActivity {
                     ll3rdStep.setVisibility(View.VISIBLE);
 
                     etFinalRes.setText(result);
+                    etPasteName.setEnabled(false);
 
 
                 } else {

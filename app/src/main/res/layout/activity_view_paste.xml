@@ -25,7 +25,20 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab2"
+        android:id="@+id/fab3delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="160dp"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:src="@drawable/ic_delete"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorPrimary"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2copy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -38,13 +51,13 @@
         app:pressedTranslationZ="12dp" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab1"
+        android:id="@+id/fab1Share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="90dp"
         android:layout_marginRight="@dimen/fab_margin"
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/ic_share_white"
         android:visibility="invisible"
         app:backgroundTint="@color/colorFAB1"
         app:elevation="6dp"
@@ -57,6 +70,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/ic_more" />
 
 </android.support.design.widget.CoordinatorLayout>
