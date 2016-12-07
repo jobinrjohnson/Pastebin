@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
 
                 <LinearLayout
@@ -155,7 +155,7 @@
                 android:id="@+id/ll3rdStep"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible">
+                android:visibility="gone">
 
 
                 <ImageView
@@ -184,7 +184,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     <EditText
-                        android:id="@+id/editText"
+                        android:id="@+id/etFinalRes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
@@ -240,7 +240,8 @@
                             android:layout_marginRight="15dp"
                             android:background="@null"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_delete_black" />
+                            android:src="@drawable/ic_delete_black"
+                            android:visibility="gone" />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

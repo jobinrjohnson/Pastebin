@@ -5,8 +5,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,15 +28,20 @@ public class AddPaste extends AppCompatActivity {
     RelativeLayout ll3rdStep;
     Button btnProceed;
     ImageButton btnClose, ibCopyUrl, ibViewPaste, ibDelete, ibShare;
-    EditText etPasteName, etPasteText;
-    Spinner spPastePrivacy;
-    String name, privacy, pasteText, result;
+    EditText etPasteName, etPasteText, etFinalRes;
+    Spinner spPastePrivacy, spPasteFormat, spPasteExpiry;
+    String name, privacy, pasteText, result, pasteid;
+    String[] pasteformat, pasteExpiry;
     int step = 0;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_paste);
+
+        sp = getSharedPreferences("user", MODE_PRIVATE);
+
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -49,7 +56,10 @@ public class AddPaste extends AppCompatActivity {
 
         etPasteName = (EditText) findViewById(R.id.etPasteName);
         etPasteText = (EditText) findViewById(R.id.etPastetext);
+        etFinalRes = (EditText) findViewById(R.id.etFinalRes);
         spPastePrivacy = (Spinner) findViewById(R.id.spPastePrivacy);
+        spPasteFormat = (Spinner) findViewById(R.id.spPasteFormat);
+        spPasteExpiry = (Spinner) findViewById(R.id.spPasteFormat);
 
         btnProceed = (Button) findViewById(R.id.btnProceed);
         btnClose = (ImageButton) findViewById(R.id.close);
@@ -60,6 +70,8 @@ public class AddPaste extends AppCompatActivity {
             }
         });
 
+        pasteformat = getResources().getStringArray(R.array.paste_format_value);
+        pasteExpiry = getResources().getStringArray(R.array.paste_expire_date_value);
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +83,12 @@ public class AddPaste extends AppCompatActivity {
         ibViewPaste = (ImageButton) findViewById(R.id.ibViewPaste);
         ibDelete = (ImageButton) findViewById(R.id.ibDelete);
         ibShare = (ImageButton) findViewById(R.id.ibShare);
+
+        if (sp.contains("user_key")) {
+            {
+                ibDelete.setVisibility(View.VISIBLE);
+            }
+        }
 
         ibCopyUrl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,39 +123,12 @@ public class AddPaste extends AppCompatActivity {
         new ServerPaste().execute(url);
     }
 
-    void navigateStep(boolean up) {
-        if (up) {
-            step++;
-            if (step == 1) {
-                llFirstStep.setVisibility(View.GONE);
-                ll3rdStep.setVisibility(View.VISIBLE);
-            } else if (step == 2) {
-                doSomePost();
-            } else {
-                --step;
-            }
-        } else {
-            if (step == 0)
-                finish();
-            else {
-                llFirstStep.setVisibility(View.VISIBLE);
-                ll3rdStep.setVisibility(View.GONE);
-                step = 0;
-            }
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        navigateStep(false);
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                navigateStep(false);
+                //navigateStep(false);
                 break;
         }
         return true;
@@ -168,6 +159,13 @@ public class AddPaste extends AppCompatActivity {
             data.put("api_paste_name", name);
             data.put("api_paste_private", privacy);
             data.put("api_paste_code", pasteText);
+            data.put("api_paste_format", pasteformat[spPasteFormat.getSelectedItemPosition()]);
+            data.put("api_paste_expire_date", pasteExpiry[spPasteExpiry.getSelectedItemPosition()]);
+
+            if (sp.contains("user_key")) {
+                data.put("api_user_key", sp.getString("user_key", ""));
+            }
+
             return data;
         }
 
@@ -217,8 +215,33 @@ public class AddPaste extends AppCompatActivity {
             progressDialog.dismiss();
             if (status) {
                 Toast.makeText(AddPaste.this, dataReturned, Toast.LENGTH_LONG).show();
+                if (apiStatus) {
+
+                    result = dataReturned;
+                    pasteid = dataReturned.substring(dataReturned.lastIndexOf("/") + 1, dataReturned.length());
+
+                    llFirstStep.setVisibility(View.GONE);
+                    ll3rdStep.setVisibility(View.VISIBLE);
+
+                    etFinalRes.setText(result);
+
+
+                } else {
+                    new AlertDialog.Builder(AddPaste.this)
+                            .setTitle("Some error occured")
+                            .setMessage(dataReturned)
+                            .setPositiveButton("Try Again", null)
+                            .setIcon(R.drawable.error)
+                            .show();
+                }
+
             } else {
-                Toast.makeText(AddPaste.this, "Nothing returned", Toast.LENGTH_LONG).show();
+                new AlertDialog.Builder(AddPaste.this)
+                        .setTitle("Unable to get date")
+                        .setMessage("Request had timed out")
+                        .setPositiveButton("Try Again", null)
+                        .setIcon(R.drawable.error)
+                        .show();
             }
         }
     }
