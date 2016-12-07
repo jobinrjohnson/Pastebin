@@ -148,7 +148,7 @@ public class AddPaste extends AppCompatActivity {
 
         HashMap<String, String> postData;
         String dataReturned;
-        boolean status = false;
+        boolean status = false, apiStatus = false;
         int type;
 
         ProgressDialog progressDialog;
@@ -176,12 +176,18 @@ public class AddPaste extends AppCompatActivity {
 
             PastebinRequest request = null;
             try {
-                //request = new PastebinRequest(params[0]);
-                //request.postData(postData);
-                //if (request.resultOk()) {
-                //    status = true;
-                //   dataReturned = request.getResponse();
-                //}
+                request = new PastebinRequest(params[0], AddPaste.this);
+                request.postData(postData);
+                if (request.resultOk()) {
+                    status = true;
+
+                    if (request.isApiError()) {
+                        dataReturned = request.getApiErrors();
+                    } else {
+                        dataReturned = request.getResponse();
+                        apiStatus = true;
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
