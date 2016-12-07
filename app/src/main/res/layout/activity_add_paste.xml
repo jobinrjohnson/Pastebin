@@ -29,6 +29,7 @@
                 android:paddingRight="5dp">
 
                 <ImageButton
+                    android:id="@+id/close"
                     android:layout_width="13dp"
                     android:layout_height="13dp"
                     android:layout_gravity="center_vertical"

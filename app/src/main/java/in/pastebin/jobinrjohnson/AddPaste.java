@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ public class AddPaste extends AppCompatActivity {
 
     LinearLayout llFirstStep, ll3rdStep;
     Button btnProceed;
+    ImageButton btnClose;
     EditText etPasteName, etPasteText;
     Spinner spPastePrivacy;
     String name, privacy, pasteText;
@@ -48,6 +50,13 @@ public class AddPaste extends AppCompatActivity {
         spPastePrivacy = (Spinner) findViewById(R.id.spPastePrivacy);
 
         btnProceed = (Button) findViewById(R.id.btnProceed);
+        btnClose = (ImageButton) findViewById(R.id.close);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
