@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,7 +18,8 @@ import java.util.HashMap;
 
 public class AddPaste extends AppCompatActivity {
 
-    LinearLayout llFirstStep, ll3rdStep;
+    LinearLayout llFirstStep;
+    RelativeLayout ll3rdStep;
     Button btnProceed;
     ImageButton btnClose;
     EditText etPasteName, etPasteText;
@@ -39,7 +41,7 @@ public class AddPaste extends AppCompatActivity {
 //        });
 
         llFirstStep = (LinearLayout) findViewById(R.id.llFirstStep);
-        ll3rdStep = (LinearLayout) findViewById(R.id.ll3rdStep);
+        ll3rdStep = (RelativeLayout) findViewById(R.id.ll3rdStep);
 
         etPasteName = (EditText) findViewById(R.id.etPasteName);
         etPasteText = (EditText) findViewById(R.id.etPastetext);
