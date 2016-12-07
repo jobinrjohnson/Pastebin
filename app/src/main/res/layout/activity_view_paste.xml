@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="230dp"
         android:layout_marginRight="@dimen/fab_margin"
         android:src="@drawable/ic_delete"
         android:visibility="invisible"

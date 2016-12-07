@@ -4,12 +4,14 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -17,10 +19,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,6 +34,7 @@ public class ViewPaste extends AppCompatActivity {
     Boolean isFabOpen = false;
     String result = "", paste_id;
     SharedPreferences sp;
+    boolean mine = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +94,11 @@ public class ViewPaste extends AppCompatActivity {
         });
 
         if (!extras.containsKey("mine")) {
+            mine = false;
             fab3delete.setVisibility(View.GONE);
             new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
         } else {
+            mine = true;
             new ServerPaste(1).execute(getResources().getString(R.string.api_url) + "api_raw.php");
         }
 
@@ -109,6 +110,24 @@ public class ViewPaste extends AppCompatActivity {
         }
         codeView = (CodeView) findViewById(R.id.code_view);
 
+        fab3delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(ViewPaste.this)
+                        .setTitle("Confirm")
+                        .setMessage("Are you sure to delete this paste")
+                        .setPositiveButton("Cancel", null)
+                        .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String url = getResources().getString(R.string.api_url) + "api_post.php";
+                                new ServerPaste(2).execute(url);
+                            }
+                        })
+                        .setIcon(R.drawable.ic_delete_black)
+                        .show();
+            }
+        });
+
     }
 
 
@@ -119,11 +138,13 @@ public class ViewPaste extends AppCompatActivity {
             fab.startAnimation(rotate_backward);
             fab1Share.startAnimation(fab_close);
             fab2copy.startAnimation(fab_close);
-            fab3delete.startAnimation(fab_close);
+            if (mine)
+                fab3delete.startAnimation(fab_close);
 
             fab1Share.setClickable(false);
             fab2copy.setClickable(false);
-            fab3delete.setClickable(false);
+            if (mine)
+                fab3delete.setClickable(false);
             isFabOpen = false;
 
         } else {
@@ -131,11 +152,13 @@ public class ViewPaste extends AppCompatActivity {
             fab.startAnimation(rotate_forward);
             fab1Share.startAnimation(fab_open);
             fab2copy.startAnimation(fab_open);
-            fab3delete.startAnimation(fab_open);
+            if (mine)
+                fab3delete.startAnimation(fab_open);
 
             fab1Share.setClickable(true);
             fab2copy.setClickable(true);
-            fab3delete.setClickable(true);
+            if (mine)
+                fab3delete.setClickable(true);
             isFabOpen = true;
 
         }
@@ -201,35 +224,39 @@ public class ViewPaste extends AppCompatActivity {
             return null;
         }
 
+        public HashMap<String, String> getDeleteData() {
+            HashMap<String, String> data = new HashMap<>();
+            data.put("api_option", "delete");
+            data.put("api_dev_key", getResources().getString(R.string.api_key));
+            data.put("api_user_key", sp.getString("user_key", ""));
+            data.put("api_paste_key", paste_id);
+            return data;
+        }
+
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             pd = new ProgressDialog(ViewPaste.this);
             pd.setIndeterminate(true);
-            pd.setTitle("Loding Paste..");
-            pd.setMessage("Please wait.");
+            pd.setTitle("Please wait..");
             pd.setCancelable(false);
             pd.show();
             switch (type) {
                 case 0:
                     postData = getRawPostData();
+                    pd.setMessage("Loading paste.");
                     break;
                 case 1:
                     postData = getUserRawPostData();
+                    pd.setMessage("Loading paste.");
+                    break;
+                case 2:
+                    postData = getDeleteData();
+                    pd.setMessage("Deleting paste.");
                     break;
                 default:            //default hashmap
                     postData = new HashMap<>();
-            }
-        }
-
-
-        private String getValue(String tag, Element element) {
-            try {
-                NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-                Node node = nodeList.item(0);
-                return node.getNodeValue();
-            } catch (Exception e) {
-                return "";
             }
         }
 
