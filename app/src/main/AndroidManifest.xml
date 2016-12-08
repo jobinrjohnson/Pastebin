@@ -71,7 +71,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.pastebin.jobinrjohnson.MainActivity" />
         </activity>
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity android:name=".PrivacyPolicy"></activity>
     </application>
 
 </manifest>

@@ -29,6 +29,13 @@ public class Settings extends AppCompatActivity {
         llstar = (LinearLayout) findViewById(R.id.llstar);
         llclear = (LinearLayout) findViewById(R.id.llclear);
 
+        llpolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Settings.this, PrivacyPolicy.class));
+            }
+        });
+
         llaboutpdev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
