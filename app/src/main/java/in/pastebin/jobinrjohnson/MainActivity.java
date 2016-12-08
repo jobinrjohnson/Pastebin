@@ -27,6 +27,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Document;
@@ -53,7 +56,17 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     SwipeRefreshLayout srl;
 
+    InterstitialAd mInterstitialAd;
+
     boolean trends = true;
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +74,20 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.admob_ad_view_1));
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+
+        requestNewInterstitial();
+
+
         sp = getSharedPreferences("user", MODE_PRIVATE);
 
         Bundle extras = getIntent().getExtras();
@@ -99,6 +126,7 @@ public class MainActivity extends AppCompatActivity
         loadFrontProfile();
         initVars();
         setupUserSettings();
+
 
     }
 
@@ -475,6 +503,9 @@ public class MainActivity extends AppCompatActivity
             if (status) {
                 if (srl.isRefreshing()) {
                     srl.setRefreshing(false);
+                }
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
                 }
                 PastesAdapter pastesAdapter = new PastesAdapter(dataReturned);
                 recyclerView.setAdapter(pastesAdapter);

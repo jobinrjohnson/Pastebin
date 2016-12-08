@@ -3,6 +3,9 @@
     <string name="api_key">54264ef0696e0c17fd50c62d5685e1a8</string>
     <string name="title_activity_main">PasteBin</string>
 
+    <string name="admob_app_id">ca-app-pub-6479565236772083~9356086255</string>
+    <string name="admob_ad_view_1">ca-app-pub-6479565236772083/1832819457</string>
+
     <string name="api_url">http://pastebin.com/api/</string>
     <string name="api_bad_req_code">Bad API request, </string>
 
