@@ -6,6 +6,8 @@
     <string name="admob_app_id">ca-app-pub-6479565236772083~9356086255</string>
     <string name="admob_ad_view_1">ca-app-pub-6479565236772083/1832819457</string>
     <string name="admob_adview_banner_1">ca-app-pub-6479565236772083/7320949858</string>
+    <string name="admob_adview_cus_1">ca-app-pub-6479565236772083/7680876655</string>
+    <string name="admob_adview_cus_2">ca-app-pub-6479565236772083/6703671053</string>
 
     <string name="api_url">http://pastebin.com/api/</string>
     <string name="api_bad_req_code">Bad API request, </string>

@@ -27,9 +27,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.NativeExpressAdView;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Document;
@@ -56,17 +56,9 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     SwipeRefreshLayout srl;
 
-    InterstitialAd mInterstitialAd;
 
-    boolean trends = true;
-
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1")
-                .build();
-
-        mInterstitialAd.loadAd(adRequest);
-    }
+    boolean trends = true, adviewin = false;
+    int iter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,19 +66,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.admob_ad_view_1));
-
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                requestNewInterstitial();
-            }
-        });
-
-        requestNewInterstitial();
-
 
         sp = getSharedPreferences("user", MODE_PRIVATE);
 
@@ -116,6 +95,9 @@ public class MainActivity extends AppCompatActivity
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if (trends) {
+                    return;
+                }
                 loadFrontProfile();
             }
         });
@@ -404,6 +386,24 @@ public class MainActivity extends AppCompatActivity
 
                     holder.paste_title.setText(getValue("paste_title", element));
 
+                    if (++iter == nList.getLength() / 2 && !adviewin) {
+
+                        NativeExpressAdView mNativeExpressAdView;
+                        mNativeExpressAdView = new NativeExpressAdView(MainActivity.this);
+                        mNativeExpressAdView.setLayoutParams(new NativeExpressAdView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        mNativeExpressAdView.setAdSize(new AdSize(AdSize.FULL_WIDTH, 132));
+                        mNativeExpressAdView.setAdUnitId(getResources().getString(R.string.admob_adview_cus_1));
+
+
+                        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+                        adRequestBuilder.addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1");
+                        holder.adcontainer.addView(mNativeExpressAdView);
+                        mNativeExpressAdView.loadAd(adRequestBuilder.build());
+
+
+                        adviewin = true;
+                    }
+
                 } catch (Exception e) {
                     holder.paste_title.setText("No title.");
                 }
@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView paste_title, paste_format_long, paste_size, paste_hits;
-            LinearLayout container;
+            LinearLayout container, adcontainer;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
@@ -424,7 +424,7 @@ public class MainActivity extends AppCompatActivity
                 paste_size = (TextView) itemView.findViewById(R.id.paste_size);
                 paste_hits = (TextView) itemView.findViewById(R.id.paste_hits);
                 container = (LinearLayout) itemView.findViewById(R.id.llcontainer);
-
+                adcontainer = (LinearLayout) itemView.findViewById(R.id.adcontainer);
             }
         }
     }
@@ -502,9 +502,6 @@ public class MainActivity extends AppCompatActivity
             if (status) {
                 if (srl.isRefreshing()) {
                     srl.setRefreshing(false);
-                }
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
                 }
                 PastesAdapter pastesAdapter = new PastesAdapter(dataReturned);
                 recyclerView.setAdapter(pastesAdapter);

@@ -23,6 +23,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -34,8 +38,17 @@ public class ViewPaste extends AppCompatActivity {
     String result = "", paste_id;
     SharedPreferences sp;
     boolean mine = false;
+    InterstitialAd mInterstitialAd;
 
     WebView myWebView;
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,18 @@ public class ViewPaste extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sp = getSharedPreferences("user", MODE_PRIVATE);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.admob_ad_view_1));
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+
+        requestNewInterstitial();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1Share = (FloatingActionButton) findViewById(R.id.fab1Share);
@@ -121,7 +146,6 @@ public class ViewPaste extends AppCompatActivity {
                         .show();
             }
         });
-
     }
 
 
@@ -284,6 +308,27 @@ public class ViewPaste extends AppCompatActivity {
                         pd.dismiss();
                     }
                 });
+
+                new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        try {
+                            sleep(5000);
+                            ViewPaste.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    if (mInterstitialAd.isLoaded()) {
+                                        mInterstitialAd.show();
+                                    }
+                                }
+                            });
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }.start();
+
 
             } else {
                 Toast.makeText(ViewPaste.this, "Some error occured.", Toast.LENGTH_LONG).show();
