@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -291,22 +292,28 @@ public class ViewPaste extends AppCompatActivity {
                 sb.append(result);
                 sb.append(getResources().getString(R.string.html_bottom));
 
+                pd.setMessage("Rendering..");
 
                 System.out.println(sb.toString());
                 myWebView.loadDataWithBaseURL("", sb.toString(), "text/html", "UTF-8", "");
                 myWebView.getSettings().setJavaScriptEnabled(true);
                 myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                myWebView.setWebViewClient(new WebViewClient() {
 
-//                etPastetext.setText(dataReturned);
-//                //etPastetext.setText((dataReturned));
+                    public void onPageFinished(WebView view, String url) {
+                        pd.dismiss();
+                    }
+                });
 
             } else {
                 Toast.makeText(ViewPaste.this, "Some error occured.", Toast.LENGTH_LONG).show();
+                if (pd.isShowing()) {
+                    pd.dismiss();
+                }
                 finish();
+
             }
-            if (pd.isShowing()) {
-                pd.dismiss();
-            }
+
         }
     }
 
