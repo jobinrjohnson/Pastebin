@@ -73,10 +73,10 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(Settings.this)
-                        .setTitle("Confirm")
-                        .setMessage("Are you sure to logout")
+                        .setTitle("Delete all data")
+                        .setMessage("This will clear all your accounts")
                         .setNegativeButton("Cancel", null)
-                        .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Do", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 SharedPreferences.Editor ediit = sp.edit();
@@ -88,7 +88,6 @@ public class Settings extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         })
-                        .setIcon(R.drawable.ic_menu_send)
                         .show();
             }
         });
