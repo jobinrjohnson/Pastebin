@@ -21,6 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.HashMap;
 
 public class AddPaste extends AppCompatActivity {
@@ -35,11 +38,18 @@ public class AddPaste extends AppCompatActivity {
     String[] pasteformat, pasteExpiry;
     int step = 0;
     SharedPreferences sp;
+    AdView adView;
+    AdRequest adRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_paste);
+
+        adView = (AdView) findViewById(R.id.banner_AdView1);
+        adRequest = new AdRequest.Builder()
+                .addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1")
+                .build();
 
         sp = getSharedPreferences("user", MODE_PRIVATE);
 
@@ -269,6 +279,8 @@ public class AddPaste extends AppCompatActivity {
                         finish();
                         return;
                     }
+
+                    adView.loadAd(adRequest);
 
                     result = dataReturned;
                     pasteid = dataReturned.substring(dataReturned.lastIndexOf("/") + 1, dataReturned.length());

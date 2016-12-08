@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity
         initVars();
         setupUserSettings();
 
-
     }
 
     void dudeChangedStatus(int status) {
