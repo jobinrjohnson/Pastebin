@@ -22,13 +22,12 @@
 
 
             <LinearLayout
+                android:id="@+id/llclear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_ll"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp">
 
                 <TextView
@@ -36,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:text="Clear all application data"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="15dp" />
+                    android:textSize="13dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -47,13 +46,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llstar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_ll"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp">
 
                 <TextView
@@ -61,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:text="If this helped you"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="15dp" />
+                    android:textSize="13dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -72,13 +70,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llaboutpbin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_ll"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp">
 
                 <TextView
@@ -86,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:text="Know about Pastebin"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="15dp" />
+                    android:textSize="13dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -97,38 +94,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llpolicy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_ll"
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="10dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Know who developed this"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="About Developer"
-                    android:textSize="20dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_ll"
-                android:orientation="vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
                 android:paddingTop="10dp">
 
                 <TextView
@@ -136,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:text="We respect your privacy"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="15dp" />
+                    android:textSize="13dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -145,6 +116,31 @@
                     android:text="Privacy Policy"
                     android:textSize="20dp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llaboutpdev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_ll"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Application by"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="jobinrjohnson"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
