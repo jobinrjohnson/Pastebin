@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRefresh() {
                 if (trends) {
+                    srl.setRefreshing(false);
                     return;
                 }
                 loadFrontProfile();
@@ -396,7 +397,7 @@ public class MainActivity extends AppCompatActivity
 
 
                         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-                        adRequestBuilder.addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1");
+                        //adRequestBuilder.addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1");
                         holder.adcontainer.addView(mNativeExpressAdView);
                         mNativeExpressAdView.loadAd(adRequestBuilder.build());
 

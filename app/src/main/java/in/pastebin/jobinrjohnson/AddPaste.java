@@ -41,6 +41,7 @@ public class AddPaste extends AppCompatActivity {
     AdView adView;
     AdRequest adRequest;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,7 @@ public class AddPaste extends AppCompatActivity {
 
         adView = (AdView) findViewById(R.id.banner_AdView1);
         adRequest = new AdRequest.Builder()
-                .addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1")
+                //.addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1")
                 .build();
 
         sp = getSharedPreferences("user", MODE_PRIVATE);

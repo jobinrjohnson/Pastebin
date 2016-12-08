@@ -37,14 +37,14 @@ public class ViewPaste extends AppCompatActivity {
     Boolean isFabOpen = false;
     String result = "", paste_id;
     SharedPreferences sp;
-    boolean mine = false;
+    boolean mine = false, isInFront = true;
     InterstitialAd mInterstitialAd;
 
     WebView myWebView;
 
     private void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1")
+                //.addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1")
                 .build();
 
         mInterstitialAd.loadAd(adRequest);
@@ -193,6 +193,18 @@ public class ViewPaste extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isInFront = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isInFront = false;
+    }
+
     private class ServerPaste extends AsyncTask<String, Void, String> {
 
         HashMap<String, String> postData;
@@ -314,10 +326,10 @@ public class ViewPaste extends AppCompatActivity {
                     public void run() {
                         super.run();
                         try {
-                            sleep(5000);
+                            sleep(10000);
                             ViewPaste.this.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    if (mInterstitialAd.isLoaded()) {
+                                    if (mInterstitialAd.isLoaded() && isInFront) {
                                         mInterstitialAd.show();
                                     }
                                 }
