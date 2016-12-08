@@ -165,6 +165,13 @@ public class AddPaste extends AppCompatActivity {
         name = etPasteName.getText().toString();
         pasteText = etPasteText.getText().toString();
         privacy = spPastePrivacy.getSelectedItemPosition() + "";
+
+        //Toast.makeText(AddPaste.this,pasteformat[spPasteFormat.getSelectedItemPosition()]+","+pasteformat.length,Toast.LENGTH_LONG).show();
+
+        if (pasteText.length() < 1) {
+            Toast.makeText(AddPaste.this, "Add some paste text", Toast.LENGTH_LONG).show();
+            return;
+        }
         new ServerPaste().execute(url);
     }
 
@@ -204,8 +211,12 @@ public class AddPaste extends AppCompatActivity {
             data.put("api_paste_name", name);
             data.put("api_paste_private", privacy);
             data.put("api_paste_code", pasteText);
-            data.put("api_paste_format", pasteformat[spPasteFormat.getSelectedItemPosition()]);
-            data.put("api_paste_expire_date", pasteExpiry[spPasteExpiry.getSelectedItemPosition()]);
+            try {
+                data.put("api_paste_expire_date", pasteExpiry[spPasteExpiry.getSelectedItemPosition()]);
+                data.put("api_paste_format", pasteformat[spPasteFormat.getSelectedItemPosition()]);
+            } catch (Exception e) {
+
+            }
 
             if (sp.contains("user_key")) {
                 data.put("api_user_key", sp.getString("user_key", ""));
