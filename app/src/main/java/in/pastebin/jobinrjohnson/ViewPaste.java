@@ -14,27 +14,32 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-import io.github.kbiakov.codeview.CodeView;
-import io.github.kbiakov.codeview.classifier.CodeProcessor;
+//import io.github.kbiakov.codeview.CodeView;
+//import io.github.kbiakov.codeview.classifier.CodeProcessor;
+//import io.github.kbiakov.codeview.highlight.prettify.PrettifyParser;
 
 public class ViewPaste extends AppCompatActivity {
 
-    CodeView codeView;
+    //CodeView codeView;
     FloatingActionButton fab, fab1Share, fab2copy, fab3delete;
     Animation fab_open, fab_close, rotate_forward, rotate_backward;
     Boolean isFabOpen = false;
     String result = "", paste_id;
     SharedPreferences sp;
     boolean mine = false;
+
+    TextView etPastetext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,6 @@ public class ViewPaste extends AppCompatActivity {
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
         rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,12 +107,14 @@ public class ViewPaste extends AppCompatActivity {
         }
 
 
-        try {
-            CodeProcessor.init(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        codeView = (CodeView) findViewById(R.id.code_view);
+//        try {
+//            CodeProcessor.init(this);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        //codeView = (CodeView) findViewById(R.id.code_view);
+
+        etPastetext = (TextView) findViewById(R.id.etPastetext);
 
         fab3delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +181,6 @@ public class ViewPaste extends AppCompatActivity {
         return true;
     }
 
-
     private class ServerPaste extends AsyncTask<String, Void, String> {
 
         HashMap<String, String> postData;
@@ -211,10 +216,13 @@ public class ViewPaste extends AppCompatActivity {
 
             try {
                 PastebinRequest request = new PastebinRequest(params[0], ViewPaste.this);
+                request.setToGet();
                 request.postData(postData);
                 if (request.resultOk()) {
-                    dataReturned = request.getResponseAsIs();
+                    result = request.getResponseAsIs();
                     status = true;
+                    PrettifyHighlighter highlighter = new PrettifyHighlighter();
+                    dataReturned = highlighter.highlight(result, "pln");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -272,9 +280,9 @@ public class ViewPaste extends AppCompatActivity {
                     startActivity(intent);
                     return;
                 }
+                etPastetext.setText(Html.fromHtml(dataReturned));
+                //etPastetext.setText((dataReturned));
 
-                result = dataReturned;
-                codeView.setCode(result);
             } else {
                 Toast.makeText(ViewPaste.this, "Some error occured.", Toast.LENGTH_LONG).show();
                 finish();
