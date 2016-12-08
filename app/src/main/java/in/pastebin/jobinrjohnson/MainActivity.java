@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, Settings.class));
             return true;
         }
 
@@ -255,6 +256,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_login:
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                break;
+            case R.id.nav_manage:
+                startActivity(new Intent(MainActivity.this, Settings.class));
                 break;
         }
 
