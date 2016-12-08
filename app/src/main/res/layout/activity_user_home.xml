@@ -32,6 +32,7 @@
                 app:cardCornerRadius="50dp">
 
                 <ImageView
+                    android:id="@+id/ivUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/pastebin_guest" />
@@ -39,6 +40,7 @@
 
 
             <TextView
+                android:id="@+id/tvUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -48,12 +50,14 @@
                 android:textSize="25dp" />
 
             <TextView
+                android:id="@+id/tvEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="me@jobinrjohnson.in" />
 
             <TextView
+                android:id="@+id/tvWeb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -61,6 +65,7 @@
                 android:text="http://myawesomesite.com" />
 
             <TextView
+                android:id="@+id/tvLoc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"

@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     editor.putString("user_website", getValue("user_website", element));
                 } catch (Exception e) {
-                    editor.putString("user_website", "No Website");
+                    editor.putString("user_website", "No Website provided");
                 }
                 try {
                     editor.putString("user_email", getValue("user_email", element));
@@ -216,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     editor.putString("user_location", getValue("user_location", element));
                 } catch (Exception e) {
-                    editor.putString("user_location", "My Location");
+                    editor.putString("user_location", "Unknown Location");
                 }
                 try {
                     editor.putString("user_account_type", getValue("user_account_type", element));

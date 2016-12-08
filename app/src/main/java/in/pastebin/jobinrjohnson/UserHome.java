@@ -8,33 +8,33 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class UserHome extends AppCompatActivity {
 
     SharedPreferences sp;
     Button btnLogout, btnNewpaste, btnViewPaste;
+    ImageView ivUser;
+    TextView tvUsername, tvEmail, tvWeb, tvLoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
         sp = getSharedPreferences("user", MODE_PRIVATE);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         btnLogout = (Button) findViewById(R.id.btnLogout);
         btnNewpaste = (Button) findViewById(R.id.btnNewpaste);
         btnViewPaste = (Button) findViewById(R.id.btnViewPaste);
+        ivUser = (ImageView) findViewById(R.id.ivUser);
+
+        tvUsername = (TextView) findViewById(R.id.tvUsername);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
+        tvWeb = (TextView) findViewById(R.id.tvWeb);
+        tvLoc = (TextView) findViewById(R.id.tvLoc);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +77,15 @@ public class UserHome extends AppCompatActivity {
             }
         });
 
+        setUpUser();
+    }
+
+    void setUpUser() {
+        Picasso.with(UserHome.this).load(sp.getString("user_avatar_url", "http://pastebin.com/i/guest.png")).into(ivUser);
+        tvUsername.setText(sp.getString("user_name", "Guest"));
+        tvEmail.setText(sp.getString("user_email", "Unknown Email"));
+        tvWeb.setText(sp.getString("user_website", "Unknown Web address"));
+        tvLoc.setText(sp.getString("user_location", "Unknown Location"));
     }
 
 }
