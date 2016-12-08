@@ -265,7 +265,7 @@ public class AddPaste extends AppCompatActivity {
                     postData = new HashMap<>();
             }
             progressDialog.show();
-            Toast.makeText(AddPaste.this, postData.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(AddPaste.this, postData.toString(), Toast.LENGTH_LONG).show();
         }
 
         @Override
