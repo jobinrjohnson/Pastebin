@@ -8,21 +8,30 @@
     tools:context="in.pastebin.jobinrjohnson.ViewPaste"
     tools:showIn="@layout/activity_view_paste">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+    <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_marginTop="-21dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:fitsSystemWindows="true">-->
 
-        <TextView
-            android:id="@+id/etPastetext"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top|left"
-            android:maxLines="100000"
-            android:minLines="6"
-            android:textAlignment="gravity"
-            android:textSize="13dp" />
-    </ScrollView>
+    <!--<TextView-->
+    <!--android:id="@+id/etPastetext"-->
+    <!--android:paddingRight="16dp"-->
+    <!--android:paddingLeft="16dp"-->
+    <!--android:paddingBottom="16dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="top|left"-->
+    <!--android:maxLines="100000"-->
+    <!--android:minLines="6"-->
+    <!--android:textAlignment="gravity"-->
+    <!--android:textSize="13dp" />-->
+    <!--</ScrollView>-->
+
+    <WebView
+        android:id="@+id/myWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
     <!--<com.pddstudio.highlightjs.HighlightJsView-->

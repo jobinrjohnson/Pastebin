@@ -41,7 +41,9 @@ public class PrettifyHighlighter {
             sb.append(colorize(lines[0], color));
             for (int i = 1; i < lines.length; i++) {
                 //sb.append("<br>" + lineNo++ +" | ");
+                sb.append("<br>");
                 sb.append(colorize(lines[i], color));
+                sb.append("<hr>");
             }
             return sb.toString();
         } else {
@@ -60,14 +62,14 @@ public class PrettifyHighlighter {
 
     private Map<String, String> buildColorsMap() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("typ", "87cefa");
-        map.put("tag", "87cefa");
-        map.put("kwd", "00ff00");
-        map.put("lit", "ffff00");
-        map.put("com", "999999");
-        map.put("str", "ff4500");
-        map.put("pun", "eeeeee");
-        map.put("pln", "000");
+        map.put("typ", "e71e62");
+        map.put("tag", "673ab6");
+        map.put("kwd", "9b26af");
+        map.put("lit", "9b26af");
+        map.put("com", "f24236");
+        map.put("str", "4caf4f");
+        map.put("pun", "f19e12");
+        map.put("pln", "3e51b5");
         return map;
     }
 }

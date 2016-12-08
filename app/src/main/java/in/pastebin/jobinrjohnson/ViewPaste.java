@@ -14,12 +14,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
+import android.text.Spanned;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -39,7 +39,9 @@ public class ViewPaste extends AppCompatActivity {
     SharedPreferences sp;
     boolean mine = false;
 
-    TextView etPastetext;
+//    TextView etPastetext;
+
+    WebView myWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +115,9 @@ public class ViewPaste extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
         //codeView = (CodeView) findViewById(R.id.code_view);
-
-        etPastetext = (TextView) findViewById(R.id.etPastetext);
+//
+//        etPastetext = (TextView) findViewById(R.id.etPastetext);
+        myWebView = (WebView) findViewById(R.id.myWebView);
 
         fab3delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +187,7 @@ public class ViewPaste extends AppCompatActivity {
     private class ServerPaste extends AsyncTask<String, Void, String> {
 
         HashMap<String, String> postData;
-        String dataReturned;
+        Spanned dataReturned;
         boolean status = false;
         int type;
         ProgressDialog pd;
@@ -221,8 +224,10 @@ public class ViewPaste extends AppCompatActivity {
                 if (request.resultOk()) {
                     result = request.getResponseAsIs();
                     status = true;
-                    PrettifyHighlighter highlighter = new PrettifyHighlighter();
-                    dataReturned = highlighter.highlight(result, "pln");
+
+
+                    //PrettifyHighlighter highlighter = new PrettifyHighlighter();
+                    //dataReturned = Html.fromHtml(highlighter.highlight(result, "pln"));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -280,8 +285,20 @@ public class ViewPaste extends AppCompatActivity {
                     startActivity(intent);
                     return;
                 }
-                etPastetext.setText(Html.fromHtml(dataReturned));
-                //etPastetext.setText((dataReturned));
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(getResources().getString(R.string.html_top));
+                sb.append(result);
+                sb.append(getResources().getString(R.string.html_bottom));
+
+
+                System.out.println(sb.toString());
+                myWebView.loadDataWithBaseURL("", sb.toString(), "text/html", "UTF-8", "");
+                myWebView.getSettings().setJavaScriptEnabled(true);
+                myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
+//                etPastetext.setText(dataReturned);
+//                //etPastetext.setText((dataReturned));
 
             } else {
                 Toast.makeText(ViewPaste.this, "Some error occured.", Toast.LENGTH_LONG).show();
