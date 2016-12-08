@@ -26,21 +26,14 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.HashMap;
 
-//import io.github.kbiakov.codeview.CodeView;
-//import io.github.kbiakov.codeview.classifier.CodeProcessor;
-//import io.github.kbiakov.codeview.highlight.prettify.PrettifyParser;
-
 public class ViewPaste extends AppCompatActivity {
 
-    //CodeView codeView;
     FloatingActionButton fab, fab1Share, fab2copy, fab3delete;
     Animation fab_open, fab_close, rotate_forward, rotate_backward;
     Boolean isFabOpen = false;
     String result = "", paste_id;
     SharedPreferences sp;
     boolean mine = false;
-
-//    TextView etPastetext;
 
     WebView myWebView;
 
@@ -109,15 +102,6 @@ public class ViewPaste extends AppCompatActivity {
             new ServerPaste(1).execute(getResources().getString(R.string.api_url) + "api_raw.php");
         }
 
-
-//        try {
-//            CodeProcessor.init(this);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        //codeView = (CodeView) findViewById(R.id.code_view);
-//
-//        etPastetext = (TextView) findViewById(R.id.etPastetext);
         myWebView = (WebView) findViewById(R.id.myWebView);
 
         fab3delete.setOnClickListener(new View.OnClickListener() {
@@ -225,10 +209,6 @@ public class ViewPaste extends AppCompatActivity {
                 if (request.resultOk()) {
                     result = request.getResponseAsIs();
                     status = true;
-
-
-                    //PrettifyHighlighter highlighter = new PrettifyHighlighter();
-                    //dataReturned = Html.fromHtml(highlighter.highlight(result, "pln"));
                 }
             } catch (IOException e) {
                 e.printStackTrace();

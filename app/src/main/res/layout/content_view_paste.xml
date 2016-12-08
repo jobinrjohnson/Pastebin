@@ -7,44 +7,8 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="in.pastebin.jobinrjohnson.ViewPaste"
     tools:showIn="@layout/activity_view_paste">
-
-    <!--<ScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_marginTop="-21dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:fitsSystemWindows="true">-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/etPastetext"-->
-    <!--android:paddingRight="16dp"-->
-    <!--android:paddingLeft="16dp"-->
-    <!--android:paddingBottom="16dp"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="top|left"-->
-    <!--android:maxLines="100000"-->
-    <!--android:minLines="6"-->
-    <!--android:textAlignment="gravity"-->
-    <!--android:textSize="13dp" />-->
-    <!--</ScrollView>-->
-
     <WebView
         android:id="@+id/myWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-
-    <!--<com.pddstudio.highlightjs.HighlightJsView-->
-    <!--android:id="@+id/highlight_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginTop="-12dp" />-->
-
-
-    <!--<io.github.kbiakov.codeview.CodeView-->
-    <!--android:id="@+id/code_view"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content" />-->
-
-
 </RelativeLayout>
