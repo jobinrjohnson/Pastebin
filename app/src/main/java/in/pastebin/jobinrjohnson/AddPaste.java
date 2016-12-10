@@ -180,7 +180,7 @@ public class AddPaste extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //navigateStep(false);
+                finish();
                 break;
         }
         return true;
