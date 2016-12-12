@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -24,10 +26,17 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class AddPaste extends AppCompatActivity {
 
+    private static final int FILE_SELECT_CODE = 1007;
     LinearLayout llFirstStep;
     RelativeLayout ll3rdStep;
     Button btnProceed;
@@ -40,6 +49,66 @@ public class AddPaste extends AppCompatActivity {
     SharedPreferences sp;
     AdView adView;
     AdRequest adRequest;
+
+    private void showFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(
+                    Intent.createChooser(intent, "Select a File to paste"),
+                    FILE_SELECT_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "Please install a File Manager.",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    Uri content_describer = data.getData();
+                    //Log.d("Path???", content_describer.getPath());
+                    File file = new File(content_describer.getPath().toString());
+                    int file_size = Integer.parseInt(String.valueOf(file.length() / 1024));
+
+                    if (file_size > 2 * 1024) {
+                        Toast.makeText(AddPaste.this, "File size greater than 2MB", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    BufferedReader reader = null;
+                    try {
+                        InputStream in = getContentResolver().openInputStream(content_describer);
+                        reader = new BufferedReader(new InputStreamReader(in));
+                        String line;
+                        StringBuilder builder = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+                            builder.append(line);
+                        }
+                        etPasteText.setText(builder.toString());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(AddPaste.this, "Unable to read this file", Toast.LENGTH_SHORT).show();
+                    } finally {
+                        if (reader != null) {
+                            try {
+                                reader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 
     @Override
@@ -54,14 +123,14 @@ public class AddPaste extends AppCompatActivity {
 
         sp = getSharedPreferences("user", MODE_PRIVATE);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFileChooser();
+            }
+        });
 
         llFirstStep = (LinearLayout) findViewById(R.id.llFirstStep);
         ll3rdStep = (RelativeLayout) findViewById(R.id.ll3rdStep);
