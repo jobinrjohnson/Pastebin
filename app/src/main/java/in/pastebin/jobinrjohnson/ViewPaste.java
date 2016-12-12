@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -99,10 +100,28 @@ public class ViewPaste extends AppCompatActivity {
             }
         });
 
-        Bundle extras = getIntent().getExtras();
-        paste_id = extras.getString("paste_id");
-        if (extras.containsKey("paste_name")) {
-            getSupportActionBar().setTitle(extras.getString("paste_name"));
+        if (getIntent().getExtras() != null) {
+            Bundle extras = getIntent().getExtras();
+            paste_id = extras.getString("paste_id");
+            if (extras.containsKey("paste_name")) {
+                getSupportActionBar().setTitle(extras.getString("paste_name"));
+            }
+            if (!extras.containsKey("mine")) {
+                mine = false;
+                new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
+            } else {
+                mine = true;
+                new ServerPaste(1).execute(getResources().getString(R.string.api_url) + "api_raw.php");
+            }
+        } else if (getIntent().getData() != null) {
+
+
+            Uri data = getIntent().getData();
+            String fullPath = data.getEncodedSchemeSpecificPart();
+
+            paste_id = fullPath.substring(fullPath.toLowerCase().indexOf(".com/") + 5);
+            new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
+
         }
 
         fab1Share.setOnClickListener(new View.OnClickListener() {
@@ -118,13 +137,8 @@ public class ViewPaste extends AppCompatActivity {
             }
         });
 
-        if (!extras.containsKey("mine")) {
-            mine = false;
+        if (mine) {
             fab3delete.setVisibility(View.GONE);
-            new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
-        } else {
-            mine = true;
-            new ServerPaste(1).execute(getResources().getString(R.string.api_url) + "api_raw.php");
         }
 
         myWebView = (WebView) findViewById(R.id.myWebView);
