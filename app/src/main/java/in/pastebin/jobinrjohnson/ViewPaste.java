@@ -331,30 +331,31 @@ public class ViewPaste extends AppCompatActivity {
                 myWebView.setWebViewClient(new WebViewClient() {
 
                     public void onPageFinished(WebView view, String url) {
-                        pd.dismiss();
+                        if (pd.isShowing()) {
+                            pd.dismiss();
+                        }
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                super.run();
+                                try {
+                                    sleep(30000);
+                                    ViewPaste.this.runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            if (mInterstitialAd.isLoaded() && isInFront) {
+                                                mInterstitialAd.show();
+                                            }
+                                        }
+                                    });
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }.start();
+
                     }
                 });
-
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        try {
-                            sleep(10000);
-                            ViewPaste.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    if (mInterstitialAd.isLoaded() && isInFront) {
-                                        mInterstitialAd.show();
-                                    }
-                                }
-                            });
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }.start();
-
 
             } else {
                 Toast.makeText(ViewPaste.this, "Some error occured.", Toast.LENGTH_LONG).show();
