@@ -87,7 +87,7 @@ public class AddPaste extends AppCompatActivity {
                         String line;
                         StringBuilder builder = new StringBuilder();
                         while ((line = reader.readLine()) != null) {
-                            builder.append(line);
+                            builder.append(line + System.getProperty("line.separator"));
                         }
                         etPasteText.setText(builder.toString());
                     } catch (FileNotFoundException e) {
