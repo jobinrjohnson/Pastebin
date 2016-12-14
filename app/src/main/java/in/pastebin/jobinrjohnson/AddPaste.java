@@ -200,7 +200,7 @@ public class AddPaste extends AppCompatActivity {
                         StringBuilder builder = new StringBuilder();
                         while ((line = reader.readLine()) != null) {
 
-                            if (builder.length() < POST_CHAR_LIMIT) {
+                            if (builder.length() > POST_CHAR_LIMIT) {
 
                                 new AlertDialog.Builder(AddPaste.this)
                                         .setTitle("Some text removed.")
@@ -285,7 +285,6 @@ public class AddPaste extends AppCompatActivity {
             data.put("api_dev_key", getResources().getString(R.string.api_key));
             data.put("api_paste_name", name);
             data.put("api_paste_private", privacy);
-            data.put("api_paste_code", pasteText);
             try {
                 data.put("api_paste_expire_date", pasteExpiry[spPasteExpiry.getSelectedItemPosition()]);
                 data.put("api_paste_format", pasteformat[spPasteFormat.getSelectedItemPosition()]);
@@ -296,6 +295,7 @@ public class AddPaste extends AppCompatActivity {
             if (sp.contains("user_key")) {
                 data.put("api_user_key", sp.getString("user_key", ""));
             }
+            data.put("api_paste_code", pasteText);
 
             return data;
         }
@@ -308,6 +308,21 @@ public class AddPaste extends AppCompatActivity {
             data.put("api_paste_key", pasteid);
             return data;
         }
+
+//        private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+//            StringBuilder result = new StringBuilder();
+//            boolean first = true;
+//            for (Map.Entry<String, String> entry : params.entrySet()) {
+//                if (first)
+//                    first = false;
+//                else
+//                    result.append("&");
+//                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+//                result.append("=");
+//                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+//            }
+//            return result.toString();
+//        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -351,7 +366,12 @@ public class AddPaste extends AppCompatActivity {
                     postData = new HashMap<>();
             }
             progressDialog.show();
-            //Toast.makeText(AddPaste.this, postData.toString(), Toast.LENGTH_LONG).show();
+//            try {
+//                //Toast.makeText(AddPaste.this, getPostDataString(postData), Toast.LENGTH_LONG).show();
+//                //etPasteText.setText(getPostDataString(postData));
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
         }
 
         @Override
