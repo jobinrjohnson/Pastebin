@@ -3,6 +3,7 @@ package in.pastebin.jobinrjohnson;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +16,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,10 +58,14 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences sp;
     NavigationView navigationView;
     SwipeRefreshLayout srl;
-
+    DisplayMetrics displaymetrics;
 
     boolean trends = true, adviewin = false;
-    int iter;
+    int iter, BREAK_POINT = 400;
+
+    LinearLayoutManager lllayoutManager = new LinearLayoutManager(MainActivity.this);
+    StaggeredGridLayoutManager sgllayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         sp = getSharedPreferences("user", MODE_PRIVATE);
 
         Bundle extras = getIntent().getExtras();
@@ -109,6 +118,20 @@ public class MainActivity extends AppCompatActivity
         loadFrontProfile();
         initVars();
         setupUserSettings();
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        int width = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ? displaymetrics.heightPixels : displaymetrics.widthPixels;
+
+        if (width / displaymetrics.density > BREAK_POINT) {
+            recyclerView.setLayoutManager(sgllayoutManager);
+        } else {
+            recyclerView.setLayoutManager(lllayoutManager);
+        }
 
     }
 
@@ -176,8 +199,12 @@ public class MainActivity extends AppCompatActivity
 
     void initVars() {
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        recyclerView.setLayoutManager(layoutManager);
+        if (displaymetrics.widthPixels / displaymetrics.density > BREAK_POINT) {
+            recyclerView.setLayoutManager(sgllayoutManager);
+        } else {
+            recyclerView.setLayoutManager(lllayoutManager);
+        }
+
         headerview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
