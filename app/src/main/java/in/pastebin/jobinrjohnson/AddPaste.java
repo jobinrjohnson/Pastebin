@@ -49,72 +49,7 @@ public class AddPaste extends AppCompatActivity {
     SharedPreferences sp;
     AdView adView;
     AdRequest adRequest;
-
-    private void showFileChooser() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        try {
-            startActivityForResult(
-                    Intent.createChooser(intent, "Select a File to paste"),
-                    FILE_SELECT_CODE);
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "Please install a File Manager.",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case FILE_SELECT_CODE:
-                if (resultCode == RESULT_OK) {
-                    Uri content_describer = data.getData();
-                    //Log.d("Path???", content_describer.getPath());
-
-                    BufferedReader reader = null;
-                    try {
-                        InputStream in = getContentResolver().openInputStream(content_describer);
-                        reader = new BufferedReader(new InputStreamReader(in));
-                        String line;
-                        StringBuilder builder = new StringBuilder();
-                        while ((line = reader.readLine()) != null) {
-
-                            if (builder.length() < POST_CHAR_LIMIT) {
-
-                                new AlertDialog.Builder(AddPaste.this)
-                                        .setTitle("Some text removed.")
-                                        .setMessage("The file size exceeded the maximum character limit.")
-                                        .setPositiveButton("OK", null)
-                                        .show();
-
-                                break;
-                            }
-
-                            builder.append(line + System.getProperty("line.separator"));
-                        }
-                        etPasteText.setText(builder.toString());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(AddPaste.this, "Unable to read this file", Toast.LENGTH_SHORT).show();
-                    } finally {
-                        if (reader != null) {
-                            try {
-                                reader.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +64,7 @@ public class AddPaste extends AppCompatActivity {
         sp = getSharedPreferences("user", MODE_PRIVATE);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -233,6 +168,72 @@ public class AddPaste extends AppCompatActivity {
 
 
     }
+
+    private void showFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(
+                    Intent.createChooser(intent, "Select a File to paste"),
+                    FILE_SELECT_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "Please install a File Manager.",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    Uri content_describer = data.getData();
+                    //Log.d("Path???", content_describer.getPath());
+
+                    BufferedReader reader = null;
+                    try {
+                        InputStream in = getContentResolver().openInputStream(content_describer);
+                        reader = new BufferedReader(new InputStreamReader(in));
+                        String line;
+                        StringBuilder builder = new StringBuilder();
+                        while ((line = reader.readLine()) != null) {
+
+                            if (builder.length() < POST_CHAR_LIMIT) {
+
+                                new AlertDialog.Builder(AddPaste.this)
+                                        .setTitle("Some text removed.")
+                                        .setMessage("The file size exceeded the maximum character limit.")
+                                        .setPositiveButton("OK", null)
+                                        .show();
+
+                                break;
+                            }
+
+                            builder.append(line + System.getProperty("line.separator"));
+                        }
+                        etPasteText.setText(builder.toString());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(AddPaste.this, "Unable to read this file", Toast.LENGTH_SHORT).show();
+                    } finally {
+                        if (reader != null) {
+                            try {
+                                reader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     private void doSomePost() {
         String url = getResources().getString(R.string.api_url) + "api_post.php";
@@ -371,6 +372,7 @@ public class AddPaste extends AppCompatActivity {
                     result = dataReturned;
                     pasteid = dataReturned.substring(dataReturned.lastIndexOf("/") + 1, dataReturned.length());
 
+                    fab.setVisibility(View.GONE);
                     llFirstStep.setVisibility(View.GONE);
                     ll3rdStep.setVisibility(View.VISIBLE);
 
