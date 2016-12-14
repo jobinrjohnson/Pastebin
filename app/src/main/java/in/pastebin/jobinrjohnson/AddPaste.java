@@ -27,7 +27,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +36,7 @@ import java.util.HashMap;
 public class AddPaste extends AppCompatActivity {
 
     private static final int FILE_SELECT_CODE = 1007;
+    public int POST_CHAR_LIMIT = 100 * 1000;
     LinearLayout llFirstStep;
     RelativeLayout ll3rdStep;
     Button btnProceed;
@@ -72,13 +72,6 @@ public class AddPaste extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     Uri content_describer = data.getData();
                     //Log.d("Path???", content_describer.getPath());
-                    File file = new File(content_describer.getPath().toString());
-                    int file_size = Integer.parseInt(String.valueOf(file.length() / 1024));
-
-                    if (file_size > 2 * 1024) {
-                        Toast.makeText(AddPaste.this, "File size greater than 2MB", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
 
                     BufferedReader reader = null;
                     try {
@@ -87,6 +80,18 @@ public class AddPaste extends AppCompatActivity {
                         String line;
                         StringBuilder builder = new StringBuilder();
                         while ((line = reader.readLine()) != null) {
+
+                            if (builder.length() < POST_CHAR_LIMIT) {
+
+                                new AlertDialog.Builder(AddPaste.this)
+                                        .setTitle("Some text removed.")
+                                        .setMessage("The file size exceeded the maximum character limit.")
+                                        .setPositiveButton("OK", null)
+                                        .show();
+
+                                break;
+                            }
+
                             builder.append(line + System.getProperty("line.separator"));
                         }
                         etPasteText.setText(builder.toString());
