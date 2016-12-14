@@ -37,6 +37,7 @@
         </activity>
         <activity
             android:name=".AddPaste"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/title_activity_add_paste"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -62,6 +63,7 @@
         </activity>
         <activity
             android:name=".ViewPaste"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/title_activity_view_paste"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
