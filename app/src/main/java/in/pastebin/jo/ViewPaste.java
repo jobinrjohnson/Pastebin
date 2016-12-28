@@ -342,8 +342,6 @@ public class ViewPaste extends AppCompatActivity {
                 sb.append(getResources().getString(R.string.html_bottom));
 
                 pd.setMessage("Rendering..");
-
-                System.out.println(sb.toString());
                 myWebView.loadDataWithBaseURL("", sb.toString(), "text/html", "UTF-8", "");
                 myWebView.getSettings().setJavaScriptEnabled(true);
                 myWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
