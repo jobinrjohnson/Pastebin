@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -42,7 +43,14 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -64,6 +72,7 @@ public class MainActivity extends AppCompatActivity
 
     boolean trends = true, adviewin = false;
     int iter, BREAK_POINT = 400;
+    Button errButton;
 
     LinearLayoutManager lllayoutManager = new LinearLayoutManager(MainActivity.this);
     StaggeredGridLayoutManager sgllayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -106,10 +115,10 @@ public class MainActivity extends AppCompatActivity
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (trends) {
-                    srl.setRefreshing(false);
-                    return;
-                }
+//                if (trends) {
+//                    srl.setRefreshing(false);
+//                    return;
+//                }
                 loadFrontProfile();
             }
         });
@@ -117,10 +126,18 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerview = navigationView.getHeaderView(0);
+
+        errButton = (Button) findViewById(R.id.err_reload);
+        errButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFrontProfile();
+            }
+        });
+
         loadFrontProfile();
         initVars();
         setupUserSettings();
-
     }
 
     @Override
@@ -143,14 +160,6 @@ public class MainActivity extends AppCompatActivity
         TextView tv = (TextView) findViewById(R.id.textView7);
         ImageView iv = (ImageView) findViewById(R.id.errimview);
         LinearLayout statDiv = (LinearLayout) findViewById(R.id.statDiv);
-        Button errButton = (Button) findViewById(R.id.err_reload);
-
-        errButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFrontProfile();
-            }
-        });
 
         switch (status) {
             case 0:
@@ -184,13 +193,13 @@ public class MainActivity extends AppCompatActivity
             tvEmail.setText(sp.getString("user_email", "Unknown email"));
 
 
-            MenuItem it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_logout);
+            MenuItem it = navigationView.getMenu().findItem(R.id.nav_logout);
             it.setVisible(true);
-            it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_yourPastes);
+            it = navigationView.getMenu().findItem(R.id.nav_yourPastes);
             it.setVisible(true);
-            it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_login);
+            it = navigationView.getMenu().findItem(R.id.nav_login);
             it.setVisible(false);
-            it = (MenuItem) navigationView.getMenu().findItem(R.id.nav_user);
+            it = navigationView.getMenu().findItem(R.id.nav_user);
             it.setVisible(true);
 
 
@@ -406,9 +415,9 @@ public class MainActivity extends AppCompatActivity
 
                     if (getValue("paste_private", element).equals("0")) {
                         holder.private_ind.setImageDrawable(getResources().getDrawable(R.drawable.ic_lock_open));
-                    }else if(getValue("paste_private", element).equals("1")){
+                    } else if (getValue("paste_private", element).equals("1")) {
                         holder.private_ind.setImageDrawable(getResources().getDrawable(R.drawable.ic_unlisted));
-                    }else{
+                    } else {
                         holder.private_ind.setImageDrawable(getResources().getDrawable(R.drawable.ic_lock));
                     }
 
@@ -508,6 +517,8 @@ public class MainActivity extends AppCompatActivity
                 if (request.resultOk()) {
                     dataReturned = request.getResponse();
                     status = true;
+                    ObjectOutput out = new ObjectOutputStream(new FileOutputStream(new File(getFilesDir(), "") + (type == 1 ? "cachefile1.txt" : "cachefile2.txt")));
+                    out.writeObject(dataReturned.toString());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -543,6 +554,19 @@ public class MainActivity extends AppCompatActivity
         }
 
 
+        String readoffline() throws IOException {
+            String fileContent = "";
+            String currentLine;
+            BufferedReader bufferedReader;
+            FileInputStream fileInputStream = new FileInputStream(getFilesDir() + (type == 1 ? "cachefile1.txt" : "cachefile2.txt"));
+            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream, "UTF-8"));
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                fileContent += currentLine + '\n';
+            }
+            bufferedReader.close();
+            return fileContent;
+        }
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -554,7 +578,16 @@ public class MainActivity extends AppCompatActivity
                 recyclerView.setAdapter(pastesAdapter);
                 dudeChangedStatus(1);
             } else {
-                dudeChangedStatus(0);
+                try {
+                    String tempresult = readoffline();
+                    PastesAdapter pastesAdapter = new PastesAdapter(tempresult);
+                    recyclerView.setAdapter(pastesAdapter);
+                    dudeChangedStatus(1);
+                    Toast.makeText(MainActivity.this, "Served from offline", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    dudeChangedStatus(0);
+                    e.printStackTrace();
+                }
             }
         }
     }
