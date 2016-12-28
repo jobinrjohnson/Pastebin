@@ -8,59 +8,114 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="2dp">
+        android:layout_margin="7dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/llcontainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="14dp">
-
-            <TextView
-                android:id="@+id/paste_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:text="the one and only project title"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="18dp" />
-
             <LinearLayout
+                android:id="@+id/llcontainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="16dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/paste_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="856b"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#a1a1a1"
+                            android:textSize="18sp"
+                            android:textStyle="normal|bold" />
+
+                        <TextView
+                            android:id="@+id/paste_format_long"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Action Script"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#175174" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="1dp"
+                            android:foregroundGravity="top"
+                            android:gravity="top"
+                            android:text="["
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/paste_hits"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="803 Hits"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="10dp"
+                            android:foregroundGravity="top"
+                            android:gravity="top"
+                            android:text="]"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                    <ImageView android:src="@drawable/ic_lock_open"
+                        android:id="@+id/private_ind"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                </LinearLayout>
+
 
                 <TextView
-                    android:id="@+id/paste_format_long"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Action Script"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:id="@+id/paste_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:text="the one and only project title"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18dp" />
 
-                <TextView
-                    android:id="@+id/paste_size"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="12833b"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/paste_hits"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="803 Hits"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    <TextView
+                        android:id="@+id/paste_expire"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="803 Hits"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
             </LinearLayout>
-
-        </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/adcontainer"

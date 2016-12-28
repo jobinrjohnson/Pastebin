@@ -44,6 +44,8 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -394,6 +396,22 @@ public class MainActivity extends AppCompatActivity
                     holder.paste_format_long.setText(getValue("paste_format_long", element));
                     holder.paste_size.setText(getValue("paste_size", element) + "B");
                     holder.paste_hits.setText(getValue("paste_hits", element) + " Hits");
+                    if (getValue("paste_expire_date", element).equals("0")) {
+                        holder.paste_expire.setText("No expiry date set");
+                    } else {
+                        Timestamp stamp = new Timestamp(Integer.parseInt(getValue("paste_expire_date", element)));
+                        Date date = new Date(stamp.getTime());
+                        holder.paste_expire.setText("Expire on " + date);
+                    }
+
+                    if (getValue("paste_private", element).equals("0")) {
+                        holder.private_ind.setImageDrawable(getResources().getDrawable(R.drawable.ic_lock_open));
+                    }else if(getValue("paste_private", element).equals("1")){
+                        holder.private_ind.setImageDrawable(getResources().getDrawable(R.drawable.ic_unlisted));
+                    }else{
+                        holder.private_ind.setImageDrawable(getResources().getDrawable(R.drawable.ic_lock));
+                    }
+
 
                     holder.container.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -422,7 +440,6 @@ public class MainActivity extends AppCompatActivity
                         mNativeExpressAdView.setAdSize(new AdSize(AdSize.FULL_WIDTH, 132));
                         mNativeExpressAdView.setAdUnitId(getResources().getString(R.string.admob_adview_cus_1));
 
-
                         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
                         //adRequestBuilder.addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1");
                         holder.adcontainer.addView(mNativeExpressAdView);
@@ -441,18 +458,20 @@ public class MainActivity extends AppCompatActivity
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView paste_title, paste_format_long, paste_size, paste_hits;
+            public TextView paste_title, paste_format_long, paste_size, paste_hits, paste_expire;
             LinearLayout container, adcontainer;
+            ImageView private_ind;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
-
                 paste_title = (TextView) itemView.findViewById(R.id.paste_title);
                 paste_format_long = (TextView) itemView.findViewById(R.id.paste_format_long);
                 paste_size = (TextView) itemView.findViewById(R.id.paste_size);
                 paste_hits = (TextView) itemView.findViewById(R.id.paste_hits);
+                paste_expire = (TextView) itemView.findViewById(R.id.paste_expire);
                 container = (LinearLayout) itemView.findViewById(R.id.llcontainer);
                 adcontainer = (LinearLayout) itemView.findViewById(R.id.adcontainer);
+                private_ind = (ImageView) itemView.findViewById(R.id.private_ind);
             }
         }
     }
