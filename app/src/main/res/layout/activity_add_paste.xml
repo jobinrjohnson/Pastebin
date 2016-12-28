@@ -17,25 +17,26 @@
             android:orientation="vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="10dp">
+            android:paddingTop="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="0dp"
                 android:paddingRight="5dp">
 
                 <ImageButton
                     android:id="@+id/close"
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="7dp"
-                    android:paddingTop="10dp"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="5dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_close" />
 
                 <LinearLayout
@@ -58,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
+                android:layout_marginLeft="7dp"
                 android:layout_marginTop="10dp"
                 android:background="@null"
                 android:hint="Paste Name" />

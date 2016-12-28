@@ -307,7 +307,6 @@ public class MainActivity extends AppCompatActivity
                                 startActivity(intent);
                             }
                         })
-                        .setIcon(R.drawable.ic_menu_send)
                         .show();
 
                 break;
