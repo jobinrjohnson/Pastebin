@@ -43,6 +43,10 @@ public class PastebinRequest {
     }
 
 
+    public void cancell() {
+        conn.disconnect();
+    }
+
     private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;

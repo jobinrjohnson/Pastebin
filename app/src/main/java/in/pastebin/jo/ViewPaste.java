@@ -38,8 +38,9 @@ public class ViewPaste extends AppCompatActivity {
     Boolean isFabOpen = false;
     String result = "", paste_id;
     SharedPreferences sp;
-    boolean mine = false, isInFront = true;
+    boolean mine = false, isInFront = true, isrunning = true;
     InterstitialAd mInterstitialAd;
+    ServerPaste spaste;
 
     WebView myWebView;
 
@@ -108,10 +109,12 @@ public class ViewPaste extends AppCompatActivity {
             }
             if (!extras.containsKey("mine")) {
                 mine = false;
-                new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
+                spaste = new ServerPaste(0);
+                spaste.execute("http://pastebin.com/raw/" + paste_id);
             } else {
                 mine = true;
-                new ServerPaste(1).execute(getResources().getString(R.string.api_url) + "api_raw.php");
+                spaste = new ServerPaste(1);
+                spaste.execute(getResources().getString(R.string.api_url) + "api_raw.php");
             }
         } else if (getIntent().getData() != null) {
 
@@ -120,7 +123,8 @@ public class ViewPaste extends AppCompatActivity {
             String fullPath = data.getEncodedSchemeSpecificPart();
 
             paste_id = fullPath.substring(fullPath.toLowerCase().indexOf(".com/") + 5);
-            new ServerPaste(0).execute("http://pastebin.com/raw/" + paste_id);
+            spaste = new ServerPaste(0);
+            spaste.execute("http://pastebin.com/raw/" + paste_id);
 
         }
 
@@ -162,6 +166,14 @@ public class ViewPaste extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isrunning) {
+            spaste.cancel(true);
+        }
+        finish();
+        super.onBackPressed();
+    }
 
     public void animateFAB() {
 
@@ -226,6 +238,7 @@ public class ViewPaste extends AppCompatActivity {
         boolean status = false;
         int type;
         ProgressDialog pd;
+        PastebinRequest request;
 
         ServerPaste(int type) {
             this.type = type;
@@ -253,7 +266,7 @@ public class ViewPaste extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             try {
-                PastebinRequest request = new PastebinRequest(params[0], ViewPaste.this);
+                request = new PastebinRequest(params[0], ViewPaste.this);
                 request.setToGet();
                 request.postData(postData);
                 if (request.resultOk()) {
@@ -277,6 +290,12 @@ public class ViewPaste extends AppCompatActivity {
             return data;
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            request.cancell();
+            myWebView.destroy();
+        }
 
         @Override
         protected void onPreExecute() {
@@ -356,6 +375,8 @@ public class ViewPaste extends AppCompatActivity {
 
                     }
                 });
+
+                isrunning = false;
 
             } else {
                 Toast.makeText(ViewPaste.this, "Some error occured.", Toast.LENGTH_LONG).show();
