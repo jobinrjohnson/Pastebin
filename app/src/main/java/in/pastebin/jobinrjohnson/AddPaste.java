@@ -140,7 +140,6 @@ public class AddPaste extends AppCompatActivity {
                                 new ServerPaste(1).execute(url);
                             }
                         })
-                        .setIcon(R.drawable.ic_delete_black)
                         .show();
             }
         });
