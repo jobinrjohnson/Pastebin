@@ -1,5 +1,6 @@
 package in.pastebin.jobinrjohnson;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -7,10 +8,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -36,7 +40,8 @@ import java.util.HashMap;
 public class AddPaste extends AppCompatActivity {
 
     private static final int FILE_SELECT_CODE = 1007;
-    public int POST_CHAR_LIMIT = 100 * 1000;
+    final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 260;
+    public int POST_CHAR_LIMIT = 1600 * 1000;
     LinearLayout llFirstStep;
     RelativeLayout ll3rdStep;
     Button btnProceed;
@@ -68,7 +73,17 @@ public class AddPaste extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFileChooser();
+                if (ContextCompat.checkSelfPermission(AddPaste.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPaste.this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    } else {
+                        ActivityCompat.requestPermissions(AddPaste.this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    }
+                } else {
+                    showFileChooser();
+                }
             }
         });
 
@@ -167,6 +182,21 @@ public class AddPaste extends AppCompatActivity {
         });
 
 
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showFileChooser();
+                } else {
+                    Toast.makeText(AddPaste.this, "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 
     private void showFileChooser() {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
@@ -31,8 +32,8 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
 
                         <TextView
@@ -86,10 +87,12 @@
                             android:textColor="@color/colorAccent"
                             android:textSize="14sp" />
                     </LinearLayout>
-                    <ImageView android:src="@drawable/ic_lock_open"
+
+                    <ImageView
                         android:id="@+id/private_ind"
                         android:layout_width="20dp"
-                        android:layout_height="20dp" />
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_lock_open" />
                 </LinearLayout>
 
 
@@ -117,12 +120,12 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/adcontainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+    <LinearLayout
+        android:id="@+id/adcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"></LinearLayout>
 </LinearLayout>

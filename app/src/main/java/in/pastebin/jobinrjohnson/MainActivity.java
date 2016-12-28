@@ -16,7 +16,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity
     Button errButton;
 
     LinearLayoutManager lllayoutManager = new LinearLayoutManager(MainActivity.this);
-    StaggeredGridLayoutManager sgllayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+    // StaggeredGridLayoutManager sgllayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 
 
     @Override
@@ -85,8 +84,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+//        displaymetrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         sp = getSharedPreferences("user", MODE_PRIVATE);
 
         Bundle extras = getIntent().getExtras();
@@ -144,13 +143,13 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        int width = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ? displaymetrics.heightPixels : displaymetrics.widthPixels;
-
-        if (width / displaymetrics.density > BREAK_POINT) {
-            recyclerView.setLayoutManager(sgllayoutManager);
-        } else {
-            recyclerView.setLayoutManager(lllayoutManager);
-        }
+//        int width = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ? displaymetrics.heightPixels : displaymetrics.widthPixels;
+//
+//        if (width / displaymetrics.density > BREAK_POINT) {
+//            recyclerView.setLayoutManager(sgllayoutManager);
+//        } else {
+//            recyclerView.setLayoutManager(lllayoutManager);
+//        }
 
     }
 
@@ -210,11 +209,11 @@ public class MainActivity extends AppCompatActivity
 
     void initVars() {
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        if (displaymetrics.widthPixels / displaymetrics.density > BREAK_POINT) {
-            recyclerView.setLayoutManager(sgllayoutManager);
-        } else {
-            recyclerView.setLayoutManager(lllayoutManager);
-        }
+//        if (displaymetrics.widthPixels / displaymetrics.density > BREAK_POINT) {
+//            recyclerView.setLayoutManager(sgllayoutManager);
+//        } else {
+        recyclerView.setLayoutManager(lllayoutManager);
+//        }
 
         headerview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -441,20 +440,18 @@ public class MainActivity extends AppCompatActivity
 
                     holder.paste_title.setText(getValue("paste_title", element));
 
-                    if (++iter == nList.getLength() / 2 && !adviewin) {
-
+                    if (position % 4 == 0 && holder.adcontainer.getChildCount() < 1) {
                         NativeExpressAdView mNativeExpressAdView;
                         mNativeExpressAdView = new NativeExpressAdView(MainActivity.this);
                         mNativeExpressAdView.setLayoutParams(new NativeExpressAdView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                         mNativeExpressAdView.setAdSize(new AdSize(AdSize.FULL_WIDTH, 132));
                         mNativeExpressAdView.setAdUnitId(getResources().getString(R.string.admob_adview_cus_1));
-
                         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-                        //adRequestBuilder.addTestDevice("4EC7E2B2060506BA2CFD947556E4CBF1");
+
+                        adRequestBuilder.addTestDevice("28776EC697A5120CBA87CB573E26544A");
+
                         holder.adcontainer.addView(mNativeExpressAdView);
                         mNativeExpressAdView.loadAd(adRequestBuilder.build());
-
-
                         adviewin = true;
                     }
 
@@ -462,7 +459,6 @@ public class MainActivity extends AppCompatActivity
                     holder.paste_title.setText("No title.");
                 }
             }
-
 
         }
 
@@ -570,10 +566,10 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (srl.isRefreshing()) {
+                srl.setRefreshing(false);
+            }
             if (status) {
-                if (srl.isRefreshing()) {
-                    srl.setRefreshing(false);
-                }
                 PastesAdapter pastesAdapter = new PastesAdapter(dataReturned);
                 recyclerView.setAdapter(pastesAdapter);
                 dudeChangedStatus(1);
