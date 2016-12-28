@@ -294,8 +294,8 @@ public class MainActivity extends AppCompatActivity
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Confirm")
                         .setMessage("Are you sure to logout")
-                        .setPositiveButton("Cancel", null)
-                        .setNegativeButton("Logout", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Cancel", null)
+                        .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 SharedPreferences.Editor ediit = sp.edit();
