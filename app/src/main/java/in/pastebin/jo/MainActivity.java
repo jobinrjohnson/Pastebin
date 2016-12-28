@@ -1,4 +1,4 @@
-package in.pastebin.jobinrjohnson;
+package in.pastebin.jo;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity
 
             tvName.setText(sp.getString("user_name", "Unnamed User"));
             tvEmail.setText(sp.getString("user_email", "Unknown email"));
-
 
             MenuItem it = navigationView.getMenu().findItem(R.id.nav_logout);
             it.setVisible(true);
@@ -446,7 +445,7 @@ public class MainActivity extends AppCompatActivity
                         mNativeExpressAdView.setAdUnitId(getResources().getString(R.string.admob_adview_cus_1));
                         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
 
-                        adRequestBuilder.addTestDevice("28776EC697A5120CBA87CB573E26544A");
+                        //adRequestBuilder.addTestDevice("28776EC697A5120CBA87CB573E26544A");
 
                         holder.adcontainer.addView(mNativeExpressAdView);
                         mNativeExpressAdView.loadAd(adRequestBuilder.build());

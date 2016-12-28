@@ -1,4 +1,4 @@
-package in.pastebin.jobinrjohnson;
+package in.pastebin.jo;
 
 import android.content.Context;
 
@@ -105,11 +105,7 @@ public class PastebinRequest {
 
     public boolean isApiError() {
         String response = getResponse();
-        if (response.contains(context.getResources().getString(R.string.api_bad_req_code)) || response == "" || response == null || response == " ") {
-            return true;
-        } else {
-            return false;
-        }
+        return response.contains(context.getResources().getString(R.string.api_bad_req_code)) || response == "" || response == null || response == " ";
     }
 
 

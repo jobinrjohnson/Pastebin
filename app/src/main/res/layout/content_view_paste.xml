@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="in.pastebin.jobinrjohnson.ViewPaste"
+    tools:context="in.pastebin.jo.ViewPaste"
     tools:showIn="@layout/activity_view_paste">
     <WebView
         android:id="@+id/myWebView"

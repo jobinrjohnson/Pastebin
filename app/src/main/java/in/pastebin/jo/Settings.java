@@ -1,4 +1,4 @@
-package in.pastebin.jobinrjohnson;
+package in.pastebin.jo;
 
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -39,7 +39,7 @@ public class Settings extends AppCompatActivity {
         llaboutpdev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.jobinrjohnson.in/"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.jo.in/"));
                 startActivity(browserIntent);
             }
         });

@@ -1,4 +1,4 @@
-package in.pastebin.jobinrjohnson;
+package in.pastebin.jo;
 
 import android.content.DialogInterface;
 import android.content.Intent;

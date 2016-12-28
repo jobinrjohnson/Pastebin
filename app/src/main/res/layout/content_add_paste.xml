@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="in.pastebin.jobinrjohnson.AddPaste"
+    tools:context="in.pastebin.jo.AddPaste"
     tools:showIn="@layout/activity_add_paste">
 
     <ScrollView

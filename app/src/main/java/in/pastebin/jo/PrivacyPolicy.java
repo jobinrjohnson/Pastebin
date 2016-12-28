@@ -1,4 +1,4 @@
-package in.pastebin.jobinrjohnson;
+package in.pastebin.jo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

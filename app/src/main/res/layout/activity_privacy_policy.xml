@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.pastebin.jobinrjohnson.PrivacyPolicy">
+    tools:context="in.pastebin.jo.PrivacyPolicy">
 
     <ScrollView
         android:layout_width="match_parent"

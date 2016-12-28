@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="in.pastebin.jobinrjohnson">
+    package="in.pastebin.jo">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,7 +17,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Splash">
+        <activity android:name="in.pastebin.jo.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="in.pastebin.jo.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
@@ -36,14 +36,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddPaste"
+            android:name="in.pastebin.jo.AddPaste"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/title_activity_add_paste"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="in.pastebin.jo.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="in.pastebin.jobinrjohnson.MainActivity" />
+                android:value="in.pastebin.jo.MainActivity" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="in.pastebin.jo.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -62,7 +62,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewPaste"
+            android:name="in.pastebin.jo.ViewPaste"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/title_activity_view_paste"
             android:theme="@style/AppTheme.NoActionBar">
@@ -80,16 +80,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UserHome"
+            android:name="in.pastebin.jo.UserHome"
             android:label="@string/title_activity_user_home"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="in.pastebin.jo.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="in.pastebin.jobinrjohnson.MainActivity" />
+                android:value="in.pastebin.jo.MainActivity" />
         </activity>
-        <activity android:name=".Settings" />
-        <activity android:name=".PrivacyPolicy"></activity>
+        <activity android:name="in.pastebin.jo.Settings" />
+        <activity android:name="in.pastebin.jo.PrivacyPolicy"></activity>
     </application>
 
 </manifest>
