@@ -297,7 +297,6 @@ public class MainActivity extends AppCompatActivity
                         .setNegativeButton("Cancel", null)
                         .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
                                 SharedPreferences.Editor ediit = sp.edit();
                                 ediit.clear();
                                 ediit.commit();
