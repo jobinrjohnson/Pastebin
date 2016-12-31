@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontwarn com.squareup.picasso.**
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
